@@ -1,10 +1,10 @@
-name: Python package
+name: Python Test
 
 on: [push]
 
 jobs:
   build:
-
+  
     runs-on: ubuntu-latest
     env:
       DB_URL: ${{ github.workspace }}/database/muslim-league.db
