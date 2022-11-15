@@ -12,7 +12,7 @@ def test_read_main(client):
     
     #ASSERT
     assert response.status_code == 200
-    assert response.json() == {"message":"Muslim League API"}
+    assert response.json() == {"message":"The Muslim League API"}
 
 def test_login_failure(client):    
     #ARRANGE
