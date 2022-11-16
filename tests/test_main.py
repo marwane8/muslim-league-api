@@ -8,11 +8,11 @@ def client():
 
 def test_read_main(client):
     # ARRANGE
-    response = client.get("/")
+    response = client.get("/api")
     
     #ASSERT
     assert response.status_code == 200
-    assert response.json() == {"message":"Muslim League API"}
+    assert response.json() == {"message":"The Muslim League API"}
 
 def test_login_failure(client):    
     #ARRANGE
@@ -25,7 +25,7 @@ def test_login_failure(client):
         "content-type":"application/x-www-form-urlencoded"
     }
     
-    response = client.post("/login", data=testFormData,
+    response = client.post("/api/v1/login", data=testFormData,
                             headers=testHeaders)
 
     assert response.status_code == 401 

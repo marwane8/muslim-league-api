@@ -91,6 +91,3 @@ def execute_sql_statement(query,values) -> list:
         if connection:
             connection.close()
             print("Closing SQLite Connection")
-
-
-print(get_credentials_from_db('adminn'))
