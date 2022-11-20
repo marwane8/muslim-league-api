@@ -28,5 +28,7 @@ class Team(BaseModel):
     name: str | None = None
     wins: int
     loss: int
+    points_for: int
+    points_against: int
+    rebounds_total: int
     diff: int
-

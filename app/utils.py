@@ -91,3 +91,21 @@ def execute_sql_statement(query,values) -> list:
         if connection:
             connection.close()
             print("Closing SQLite Connection")
+
+def commit_sql_statement(query,values) -> list:
+    try:
+        connection = sqlite3.connect(DB_URL)
+        cursor = connection.cursor()
+
+        log_message = 'Executing Statement: {} with | values {}'.format(query,values)
+        print(log_message)
+        cursor.execute(query,values)
+        record = cursor.fetchall()
+        connection.commit()
+        return record
+    except sqlite3.Error as error:
+        print('DB Request Failed: {}'.format(error))
+    finally:
+        if connection:
+            connection.close()
+            print("Closing SQLite Connection")
