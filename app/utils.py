@@ -74,11 +74,14 @@ def fetchone_sql_statement(query,values) -> list:
             print("Closing SQLite Connection")
 
 
-def execute_sql_statement(query,values) -> list:
+def execute_sql_statement(query,values=None) -> list:
     try:
         connection = sqlite3.connect(DB_URL)
         cursor = connection.cursor()
-        cursor.execute(query,values)
+        if values: 
+            cursor.execute(query,values)
+        else:
+            cursor.execute(query)
 
         log_message = 'Executing Statement: {} with | values {}'.format(query,values)
         print(log_message)

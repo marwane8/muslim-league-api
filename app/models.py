@@ -23,7 +23,23 @@ class Player(BaseModel):
     number: int | None
     pos: str
 
+class PlayerStat(BaseModel):
+    id: int
+    name: str | None = None
+    stat: str 
+
+class TeamRanks(BaseModel):
+    id: int
+    name: str | None = None
+    ovr_all: int 
+    points_rnk: int 
+    rebound_rnk: int 
+
 class Team(BaseModel):
+    id: int
+    name: str | None = None
+
+class TeamStats(BaseModel):
     id: int
     name: str | None = None
     wins: int

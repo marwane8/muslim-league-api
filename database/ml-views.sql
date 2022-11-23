@@ -91,3 +91,4 @@ CREATE  VIEW `player_totals` AS
         left join `players` on((`st`.`player_id` = `players`.`player_id`))) 
         group by `p_id`;
 
+SELECT * FROM season WHERE year=2022 AND season_name='Summer';
