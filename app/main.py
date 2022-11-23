@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import os
 
-from app.models import Player,Team, User, TokenSchema 
+from app.models import Player,Team, User, TokenSchema ,TeamStats,PlayerStat
 from app.utils import ( 
     create_access_token,
     verify_password,
@@ -14,7 +14,10 @@ from app.utils import (
 
 from app.db_accessor import (
     get_team_standings,
-    get_team_roster
+    get_team_roster,
+    get_all_teams,
+    get_points_leaders,
+    get_rebound_leaders
 )
 
 
@@ -79,17 +82,39 @@ def logout(user: User = Depends(get_current_user)):
     response.set_cookie(key="token", value="",secure=True,domain=app_domain)
     return response
 
+
 #--------------
-# TEAM API Endpoints
+# Team API Endpoints
 #--------------
+get_teams_summary= "Returns a list of teams associated with the given season"
+@app.get("/api/v1/teams/{season_id}" ,summary=get_teams_summary, response_model=list[Team])
+def get_roster(season_id: int = Path(None,description="ID of a Season")):
+    teams = get_all_teams(season_id)
+    return teams 
+
+
 get_standings_summary = "Returns a sorted list of teams of a given season id according their prefomance records"
-@app.get("/api/v1/teams/standings/{season_id}" ,summary=get_standings_summary, response_model=list[Team])
+@app.get("/api/v1/teams/{season_id}/standings" ,summary=get_standings_summary, response_model=list[TeamStats])
 def get_standings(season_id: int = Path(None,description="The ID of a Season")):
     standings = get_team_standings(season_id)
     return standings 
 
+
+#--------------
+# Player API Endpoints
+#--------------
 get_roster_summary = "Returns a list of players associated with the given team id"
-@app.get("/api/v1/teams/{team_id}" ,summary=get_roster_summary, response_model=list[Player])
+@app.get("/api/v1/players/{team_id}" ,summary=get_roster_summary, response_model=list[Player])
 def get_roster(team_id: int = Path(None,description="The ID of a Team")):
     roster = get_team_roster(team_id)
     return roster 
+
+get_stat_leaders_summary= "Returns a list of players of top players of a given statistical category" 
+@app.get("/api/v1/players/{season_id}/stat/{category}" ,summary=get_stat_leaders_summary, response_model=list[PlayerStat])
+def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a Season"),category: str= Path(None,description="Statiscal Category eg. Points, Rebounds")):
+    match category:
+        case "points":
+            return  get_points_leaders()
+        case "rebounds":
+            return  get_rebound_leaders()
+    return [] 
