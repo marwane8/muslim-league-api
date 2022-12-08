@@ -48,3 +48,17 @@ class TeamStats(BaseModel):
     points_against: int
     rebounds_total: int
     diff: int
+
+class Games(BaseModel):
+    games: list[int]
+
+class Game(BaseModel):
+    game_id: int
+    team1_id: int
+    team1: str
+    team2_id: int
+    team2: str 
+    date: int
+    start_time: str
+    court: int
+    playoff: int
