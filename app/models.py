@@ -62,3 +62,11 @@ class Game(BaseModel):
     start_time: str
     court: int
     playoff: int
+
+class GameStats(BaseModel):
+    game_id: int
+    team_id: int
+    team_name: str
+    points: int
+    rebounds: int
+    fouls: int

@@ -13,7 +13,8 @@ from app.models import (
     TeamStats,
     PlayerStat,
     Game,
-    Games 
+    Games,
+    GameStats
 )
 from app.utils import ( 
     create_access_token,
@@ -28,7 +29,8 @@ from app.db_accessor import (
     get_points_leaders,
     get_rebound_leaders,
     get_game_days,
-    get_games_of_date
+    get_games_of_date,
+    get_games_stats
 )
 
 
@@ -145,3 +147,8 @@ def get_games_by_date(date: int = Path(None,description="Date fromated YYYYMMDD"
     games = get_games_of_date(date)
     return games
 
+get_game_stats_summary= "get all statistics of each game"
+@app.get("/api/v1/games/stats/{game_id}" ,summary=get_game_stats_summary, response_model=list[GameStats])
+def get_games_statistics(game_id: int = Path(None,description="ID for game")):
+    game_stats = get_games_stats(game_id)
+    return game_stats

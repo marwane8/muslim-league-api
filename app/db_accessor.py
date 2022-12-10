@@ -1,5 +1,5 @@
 from app.models import Player 
-from app.models import Team,TeamStats,PlayerStat,Games,Game
+from app.models import Team,TeamStats,PlayerStat,Games,Game,GameStats
 from app.utils import execute_sql_statement
 # DB Constants
 
@@ -57,6 +57,13 @@ def get_games_of_date(date: int) -> list[Game]:
     games_records = execute_sql_statement(game_query,(date,))
     games = map_row_to_games(games_records)
     return games
+
+def get_games_stats(game_id: int) -> list[GameStats]:
+    game_stats_query= "SELECT g_id,t_id,team_name,total_pts,total_reb,fls FROM game_totals WHERE g_id = ?"
+    games_records = execute_sql_statement(game_stats_query,(game_id,))
+    games = map_game_stats(games_records)
+    return games
+ 
  
 
 #--------------
@@ -127,4 +134,15 @@ def map_date_record(records: list[tuple]) -> Games:
     game_dates=Games(games=dates)
     return game_dates 
 
-print(get_game_days())
+def map_game_stats(records: list[tuple]) -> list[GameStats]:
+    game_stats = []
+    if records == []:
+        print("Not teams found for requested season")
+    else:
+        for game_data in records:
+            g_id,t_id,team_name,total_pts,total_reb,fls = game_data[:6] 
+            game = GameStats(game_id=g_id,team_id=t_id,team_name=team_name,points=total_pts,rebounds=total_reb,fouls=fls)
+            game_stats.append(game)
+
+    return game_stats
+
