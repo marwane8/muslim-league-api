@@ -5,7 +5,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import os
 
-from app.models import Player,Team, User, TokenSchema ,TeamStats,PlayerStat
+from app.models import ( 
+    Player,
+    Team,
+    User,
+    TokenSchema,
+    TeamStats,
+    PlayerStat,
+    Game,
+    Games 
+)
 from app.utils import ( 
     create_access_token,
     verify_password,
@@ -17,7 +26,9 @@ from app.db_accessor import (
     get_team_roster,
     get_all_teams,
     get_points_leaders,
-    get_rebound_leaders
+    get_rebound_leaders,
+    get_game_days,
+    get_games_of_date
 )
 
 
@@ -118,3 +129,19 @@ def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a
         case "rebounds":
             return  get_rebound_leaders()
     return [] 
+
+#--------------
+# Games API Endpoints
+#--------------
+get_game_summary= "Returns a list of games for a given season"
+@app.get("/api/v1/games/dates" ,summary=get_game_summary, response_model=Games)
+def get_games():
+    game_days = get_game_days()
+    return game_days 
+
+get_game_by_date_summary= "Returns a list of games for a given date"
+@app.get("/api/v1/games/{date}" ,summary=get_game_summary, response_model=list[Game])
+def get_games_by_date(date: int = Path(None,description="Date fromated YYYYMMDD")):
+    games = get_games_of_date(date)
+    return games
+

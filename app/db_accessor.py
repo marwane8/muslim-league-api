@@ -1,5 +1,5 @@
 from app.models import Player 
-from app.models import Team,TeamStats,PlayerStat
+from app.models import Team,TeamStats,PlayerStat,Games,Game
 from app.utils import execute_sql_statement
 # DB Constants
 
@@ -44,6 +44,22 @@ def get_rebound_leaders(season_id: int=None) -> list[PlayerStat]:
     return rebound_leaders
 
 #--------------
+# Games Functions 
+#--------------
+def get_game_days() -> Games:
+    game_day_query = "SELECT date FROM Games GROUP BY date"
+    game_days_records= execute_sql_statement(game_day_query)
+    game_days = map_date_record(game_days_records)
+    return game_days
+
+def get_games_of_date(date: int) -> list[Game]:
+    game_query= "SELECT game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff FROM schedule WHERE date = ?"
+    games_records = execute_sql_statement(game_query,(date,))
+    games = map_row_to_games(games_records)
+    return games
+ 
+
+#--------------
 # Mapping Functions 
 #--------------
 def map_row_to_team(record: list) -> list[Team]:
@@ -79,6 +95,17 @@ def map_row_to_player(record: list) -> list[Player]:
                 roster.append(Player(id=p_id,name=p_name,number=p_num,pos=p_pos))
         return roster
 
+def map_row_to_games(record: list) -> list[Game]:
+        games = []
+        if record == []:
+            print("No records found for requested team")
+        else:
+            for game_info in record:
+                g_id,t1_id,tm1,t2_id,tm2,date,start_time,court,playoff = game_info
+                games.append(Game(game_id=g_id,team1_id=t1_id,team1=tm1,team2_id=t2_id,team2=tm2,date=date,start_time=start_time,court=court,playoff=playoff))
+        return games 
+
+
 def map_stat_to_leaders(records: list) -> list[PlayerStat]:
     leaders = []
     if records == []:
@@ -92,5 +119,12 @@ def map_stat_to_leaders(records: list) -> list[PlayerStat]:
     leaders.sort(key=lambda p: float(p.stat),reverse=True)
     return leaders[:5] 
 
+def map_date_record(records: list[tuple]) -> Games:
+    dates = []
+    if records == []:
+        print("Not teams found for requested season")
+    dates = [ date[0] for date in records]
+    game_dates=Games(games=dates)
+    return game_dates 
 
-
+print(get_game_days())
