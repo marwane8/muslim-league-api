@@ -11,10 +11,12 @@ from app.models import (
     User,
     TokenSchema,
     TeamStats,
-    PlayerStat,
+    PlayerStats,
     Game,
-    Games 
+    GameDates,
+    GameStats
 )
+
 from app.utils import ( 
     create_access_token,
     verify_password,
@@ -28,7 +30,8 @@ from app.db_accessor import (
     get_points_leaders,
     get_rebound_leaders,
     get_game_days,
-    get_games_of_date
+    get_games_of_date,
+    get_games_stats
 )
 
 
@@ -120,8 +123,8 @@ def get_roster(team_id: int = Path(None,description="The ID of a Team")):
     roster = get_team_roster(team_id)
     return roster 
 
-get_stat_leaders_summary= "Returns a list of players of top players of a given statistical category" 
-@app.get("/api/v1/players/{season_id}/stat/{category}" ,summary=get_stat_leaders_summary, response_model=list[PlayerStat])
+get_stat_leaders_summary= "Returns a list of the top players of a given statistical category" 
+@app.get("/api/v1/players/{season_id}/stat/{category}" ,summary=get_stat_leaders_summary, response_model=list[PlayerStats])
 def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a Season"),category: str= Path(None,description="Statiscal Category eg. Points, Rebounds")):
     match category:
         case "points":
@@ -133,8 +136,8 @@ def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a
 #--------------
 # Games API Endpoints
 #--------------
-get_game_summary= "Returns a list of games for a given season"
-@app.get("/api/v1/games/dates" ,summary=get_game_summary, response_model=Games)
+get_game_summary= "Returns a list of all the dates games are played in the database"
+@app.get("/api/v1/games/dates" ,summary=get_game_summary, response_model=GameDates)
 def get_games():
     game_days = get_game_days()
     return game_days 
@@ -145,3 +148,8 @@ def get_games_by_date(date: int = Path(None,description="Date fromated YYYYMMDD"
     games = get_games_of_date(date)
     return games
 
+get_game_stats_summary= "get all statistics of each game"
+@app.get("/api/v1/games/stats/{game_id}" ,summary=get_game_stats_summary, response_model=list[GameStats])
+def get_games_statistics(game_id: int = Path(None,description="ID for game")):
+    game_stats = get_games_stats(game_id)
+    return game_stats
