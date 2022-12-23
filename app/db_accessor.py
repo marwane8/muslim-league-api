@@ -1,5 +1,5 @@
 from app.models import Player 
-from app.models import Team,TeamStats,PlayerStat,Games,Game,GameStats
+from app.models import Team,TeamStats,PlayerStats,GameDates,Game,GameStats
 from app.utils import execute_sql_statement
 # DB Constants
 
@@ -28,7 +28,7 @@ def get_team_roster(team_id: int) -> list[Player]:
     roster = map_row_to_player(roster_records)
     return roster
 
-def get_points_leaders(season_id: int=None) -> list[PlayerStat]:
+def get_points_leaders(season_id: int=None) -> list[PlayerStats]:
     #TODO: Implement Season Filter in DB
     point_stat_query = "SELECT p_id,name,games_played,points FROM player_totals"
     point_stat_records = execute_sql_statement(point_stat_query)
@@ -36,7 +36,7 @@ def get_points_leaders(season_id: int=None) -> list[PlayerStat]:
 
     return points_leaders 
 
-def get_rebound_leaders(season_id: int=None) -> list[PlayerStat]:
+def get_rebound_leaders(season_id: int=None) -> list[PlayerStats]:
     #TODO: Implement Season Filter in DB
     point_stat_query = "SELECT p_id,name,games_played,rebounds FROM player_totals"
     point_stat_records = execute_sql_statement(point_stat_query)
@@ -46,7 +46,7 @@ def get_rebound_leaders(season_id: int=None) -> list[PlayerStat]:
 #--------------
 # Games Functions 
 #--------------
-def get_game_days() -> Games:
+def get_game_days() -> GameDates:
     game_day_query = "SELECT date FROM Games GROUP BY date"
     game_days_records= execute_sql_statement(game_day_query)
     game_days = map_date_record(game_days_records)
@@ -113,7 +113,7 @@ def map_row_to_games(record: list) -> list[Game]:
         return games 
 
 
-def map_stat_to_leaders(records: list) -> list[PlayerStat]:
+def map_stat_to_leaders(records: list) -> list[PlayerStats]:
     leaders = []
     if records == []:
         print("Not teams found for requested season")
@@ -121,17 +121,17 @@ def map_stat_to_leaders(records: list) -> list[PlayerStat]:
         for stat_data in records:
             stat_average = "{:.1f}".format(stat_data[3]/stat_data[2])
             p_id,p_name = stat_data[:2] 
-            player = PlayerStat(id=p_id,name=p_name,stat=stat_average)
+            player = PlayerStats(id=p_id,name=p_name,stat=stat_average)
             leaders.append(player)
     leaders.sort(key=lambda p: float(p.stat),reverse=True)
     return leaders[:5] 
 
-def map_date_record(records: list[tuple]) -> Games:
+def map_date_record(records: list[tuple]) -> GameDates:
     dates = []
     if records == []:
         print("Not teams found for requested season")
     dates = [ date[0] for date in records]
-    game_dates=Games(games=dates)
+    game_dates=GameDates(games=dates)
     return game_dates 
 
 def map_game_stats(records: list[tuple]) -> list[GameStats]:

@@ -11,11 +11,12 @@ from app.models import (
     User,
     TokenSchema,
     TeamStats,
-    PlayerStat,
+    PlayerStats,
     Game,
-    Games,
+    GameDates,
     GameStats
 )
+
 from app.utils import ( 
     create_access_token,
     verify_password,
@@ -122,8 +123,8 @@ def get_roster(team_id: int = Path(None,description="The ID of a Team")):
     roster = get_team_roster(team_id)
     return roster 
 
-get_stat_leaders_summary= "Returns a list of players of top players of a given statistical category" 
-@app.get("/api/v1/players/{season_id}/stat/{category}" ,summary=get_stat_leaders_summary, response_model=list[PlayerStat])
+get_stat_leaders_summary= "Returns a list of the top players of a given statistical category" 
+@app.get("/api/v1/players/{season_id}/stat/{category}" ,summary=get_stat_leaders_summary, response_model=list[PlayerStats])
 def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a Season"),category: str= Path(None,description="Statiscal Category eg. Points, Rebounds")):
     match category:
         case "points":
@@ -135,8 +136,8 @@ def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a
 #--------------
 # Games API Endpoints
 #--------------
-get_game_summary= "Returns a list of games for a given season"
-@app.get("/api/v1/games/dates" ,summary=get_game_summary, response_model=Games)
+get_game_summary= "Returns a list of all the dates games are played in the database"
+@app.get("/api/v1/games/dates" ,summary=get_game_summary, response_model=GameDates)
 def get_games():
     game_days = get_game_days()
     return game_days 

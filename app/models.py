@@ -23,7 +23,7 @@ class Player(BaseModel):
     number: int | None
     pos: str
 
-class PlayerStat(BaseModel):
+class PlayerStats(BaseModel):
     id: int
     name: str | None = None
     stat: str 
@@ -49,7 +49,7 @@ class TeamStats(BaseModel):
     rebounds_total: int
     diff: int
 
-class Games(BaseModel):
+class GameDates(BaseModel):
     games: list[int]
 
 class Game(BaseModel):
