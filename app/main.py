@@ -26,7 +26,7 @@ app.include_router(bball_rt.router)
 app_domain = "localhost"
 
 if app_env == 'prod':
-    app = FastAPI(docs_url=None,redoc_url=None)
+    #app = FastAPI(docs_url=None,redoc_url=None)
     app_domain = ".muslimleaguect.com"
 
 origins = [
