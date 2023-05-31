@@ -6,7 +6,7 @@ import sqlite3
 from jose import jwt
 from passlib.context import CryptContext
 
-from app.models import User
+from app.user_models import User
 
 
 ENVIRONMENT = os.environ.get('ML_ENV') 
