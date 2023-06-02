@@ -16,23 +16,21 @@ from app.utils import (
     get_credentials_from_db
 )
 
-app_env = os.environ.get('ML_ENV') 
 
 app = FastAPI()
-
-#Included routers
-app.include_router(bball_rt.router)
+app_env = os.environ.get('ML_ENV') 
 
 app_domain = "localhost"
 
 if app_env == 'prod':
-    #app = FastAPI(docs_url=None,redoc_url=None)
+    app = FastAPI(docs_url=None,redoc_url=None)
     app_domain = ".muslimleaguect.com"
 
 origins = [
   "http://localhost:3000",
   "https://www.muslimleaguect.com"
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -41,6 +39,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+#Included routers
+app.include_router(bball_rt.router)
 
 
 @app.get("/api")
