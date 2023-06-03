@@ -12,7 +12,9 @@ To build project
     `python3 -m pip install -r requirements.txt`
 
 4. Set Environment variable in `.venv/bin/activate` script:    
-    `DB_URL=<path-to-db>`
+    `USERS_DB_URL=<path-to-db>`
+    `BBALL_URL=<path-to-db>`
+    `SOCCER_DB_URL=<path-to-db>`
 
 To run application in development:
     `uvicorn app.main:app --reload`

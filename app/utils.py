@@ -2,15 +2,14 @@ from typing import Any
 from datetime import datetime, timedelta
 
 import os
-import sqlite3
 from jose import jwt
 from passlib.context import CryptContext
 
-from app.user_models import User
 
+from app.user_models import User
+from .accessors.db_utils import DB,fetchone_sql_statement
 
 ENVIRONMENT = os.environ.get('ML_ENV') 
-DB_URL = os.environ.get('DB_URL') 
 
 # JWT Constants
 ACCESS_TOKEN_EXPIRE_MINUTES = 30 # 30 minutes
@@ -46,69 +45,10 @@ def verify_password(password: str, hashed_pass: str) -> bool:
 def get_credentials_from_db(username: str) -> User | None:
 
     query = "SELECT username,admin,password FROM Users WHERE username = ?"
-    record = fetchone_sql_statement(query,(username,))
+    record = fetchone_sql_statement(DB.USERS,query,(username,))
     if not record: 
         print("The User Not Found: ", username)
         return None 
     user = User( username=record[0], admin=record[1], password=record[2])
     return user
 
-
-# DB Access Utilities
-def fetchone_sql_statement(query,values) -> list:
-    try:
-        connection = sqlite3.connect(DB_URL)
-        cursor = connection.cursor()
-        cursor.execute(query,values)
-
-        log_message = 'Executing Statement: {} with values {}'.format(query,values)
-        print(log_message)
-
-        record = cursor.fetchone()
-        return record
-    except sqlite3.Error as error:
-        print('DB Request Failed: {}'.format(error))
-    finally:
-        if connection:
-            connection.close()
-            print("Closing SQLite Connection")
-
-
-def execute_sql_statement(query,values=None) -> list:
-    try:
-        connection = sqlite3.connect(DB_URL)
-        cursor = connection.cursor()
-        if values: 
-            cursor.execute(query,values)
-        else:
-            cursor.execute(query)
-
-        log_message = 'Executing Statement: {} with | values {}'.format(query,values)
-        print(log_message)
-
-        record = cursor.fetchall()
-        return record
-    except sqlite3.Error as error:
-        print('DB Request Failed: {}'.format(error))
-    finally:
-        if connection:
-            connection.close()
-            print("Closing SQLite Connection")
-
-def commit_sql_statement(query,values) -> list:
-    try:
-        connection = sqlite3.connect(DB_URL)
-        cursor = connection.cursor()
-
-        log_message = 'Executing Statement: {} with | values {}'.format(query,values)
-        print(log_message)
-        cursor.execute(query,values)
-        record = cursor.fetchall()
-        connection.commit()
-        return record
-    except sqlite3.Error as error:
-        print('DB Request Failed: {}'.format(error))
-    finally:
-        if connection:
-            connection.close()
-            print("Closing SQLite Connection")
