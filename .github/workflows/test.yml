@@ -11,7 +11,9 @@ jobs:
   
     runs-on: ubuntu-latest
     env:
-      DB_URL: ${{ github.workspace }}/database/muslim-league.db
+      USERS_DB_URL: ${{ github.workspace }}/database/users.db
+      BBALL_DB_URL: ${{ github.workspace }}/database/bball.db
+      SOCCER_DB_URL: ${{ github.workspace }}/database/soccer.db
 
     steps:
       - uses: actions/checkout@v3
