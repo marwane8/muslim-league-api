@@ -29,7 +29,7 @@ def get_standings(season_id: int = Path(None,description="The ID of a Season")):
 #--------------
 get_players_summary = "Returns a list of players associated with the given team id"
 @router.get("/players/{team_id}" ,summary=get_players_summary, response_model=list[Player])
-def get_players(team_id: int = Path(None,description="The ID of a Team")):
+def get_team_players(team_id: int = Path(None,description="The ID of a Team")):
     players = get_players_by_team(team_id)
     return players 
 

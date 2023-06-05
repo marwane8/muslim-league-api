@@ -1,4 +1,4 @@
-from app.processors.soccer import *
+from app.accessors.bball.bball_accessor import *
 
-data = get_players_by_team(1)
+data = get_team_roster(3)
 print(data)
