@@ -1,5 +1,5 @@
 from .soccer_mapper import *
-from .soccer_models import Team
+from .soccer_models import *
 from ..db_utils import DB,execute_sql_statement,fetchone_sql_statement,commit_sql_statement
 
 #--------------
@@ -10,5 +10,12 @@ def get_teams(season_id: int) -> list[Team]:
     teams_records = execute_sql_statement(DB.SOCCER,teams_query,(season_id,))
     teams = map_rows_to_teams(teams_records) 
     return teams
+
+def get_player_totals(season_id: int=None) -> list[PlayerTotals]:
+    #TODO: Implement Season Filter in DB
+    player_totals_query = "SELECT p_id, player_name, games_played, goals, assists FROM player_totals"
+    player_totals_records = execute_sql_statement(DB.SOCCER,player_totals_query)
+    player_totals = map_rows_to_player_totals(player_totals_records) 
+    return player_totals
 
 

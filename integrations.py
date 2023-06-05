@@ -1,4 +1,4 @@
 from app.processors.soccer import *
 
-standings = get_team_standings(1)
+standings = get_stat_leaders(Stat.GOALS,1)
 print(standings)

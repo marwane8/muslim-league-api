@@ -1,4 +1,4 @@
-from .soccer_models import Team
+from .soccer_models import *
 
 def map_rows_to_teams(rows) -> list[Team]:
     teams = []
@@ -19,3 +19,17 @@ def map_rows_to_teams(rows) -> list[Team]:
         teams.append(team)
     return teams
 
+
+def map_rows_to_player_totals(rows) -> list[PlayerTotals]:
+    player_totals = []
+    for row in rows:
+        player_id, player_name, games_played, goals, assists = row
+        team = PlayerTotals(
+            player_id=player_id,
+            player_name=player_name,
+            games_played=games_played,
+            goals=goals,
+            assists=assists
+        )
+        player_totals.append(team)
+    return player_totals
