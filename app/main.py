@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import os
 
-from .routers import bball_rt
+from .routers import bball_rt,soccer_rt
 
 
 
@@ -42,6 +42,7 @@ app.add_middleware(
 
 #Included routers
 app.include_router(bball_rt.router)
+app.include_router(soccer_rt.router)
 
 
 @app.get("/api")

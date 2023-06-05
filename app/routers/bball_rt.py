@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Path
 
-from app.accessors.bball_accessor import *
+from app.accessors.bball.bball_accessor import *
 
 router = APIRouter(
     prefix="/api/v1/bball",
