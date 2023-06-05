@@ -20,4 +20,4 @@ def get_stat_leaders(stat: Stat,season_id: int) -> list[PlayerTotals]:
         player_totals.sort(key=lambda total: (-total.assists))
     else:
         player_totals = []
-    return player_totals 
+    return player_totals[:10]
