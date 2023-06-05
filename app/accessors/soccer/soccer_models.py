@@ -7,6 +7,7 @@ class Team(BaseModel):
     team_captain: str 
     wins: int
     losses: int
+    draws: int
     goals_for: int
     goals_against: int
     points: int
