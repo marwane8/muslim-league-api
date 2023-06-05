@@ -12,6 +12,14 @@ class Team(BaseModel):
     goals_against: int
     points: int
 
+class Player(BaseModel):
+    player_id: int 
+    team_id: int 
+    team_name: str 
+    player_name: str 
+    player_number: str 
+    player_pos: str
+
 class PlayerTotals(BaseModel):
     player_id: int
     player_name: str

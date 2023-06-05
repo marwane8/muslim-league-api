@@ -20,6 +20,21 @@ def map_rows_to_teams(rows) -> list[Team]:
     return teams
 
 
+def map_rows_to_players(rows) -> list[Player]:
+    players = []
+    for row in rows:
+        player_id,team_id,team_name,player_name,player_number,player_pos  = row
+        player = Player(
+            player_id=player_id,
+            team_id=team_id,
+            team_name=team_name,
+            player_name=player_name,
+            player_number=player_number,
+            player_pos=player_pos
+        )
+        players.append(player)
+    return players
+
 def map_rows_to_player_totals(rows) -> list[PlayerTotals]:
     player_totals = []
     for row in rows:
