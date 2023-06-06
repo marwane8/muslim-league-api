@@ -1,6 +1,6 @@
 from .bball_mapper import *
 from .bball_models import Player,PlayerStats,Team,TeamStats,GameDates,Game,GameStats
-from .db_utils import DB,execute_sql_statement,fetchone_sql_statement,commit_sql_statement
+from ..db_utils import DB,execute_sql_statement,fetchone_sql_statement,commit_sql_statement
 
 #--------------
 # Teams Functions 

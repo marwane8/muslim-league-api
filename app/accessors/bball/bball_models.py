@@ -3,7 +3,7 @@ from pydantic import BaseModel
 class Player(BaseModel):
     id: int
     name: str | None = None
-    number: int | None
+    number: str | None
     pos: str
 
 class PlayerStats(BaseModel):
