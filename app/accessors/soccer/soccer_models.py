@@ -26,3 +26,24 @@ class PlayerTotals(BaseModel):
     games_played: int 
     goals: int
     assists: int
+   
+class Game(BaseModel):
+    game_id: int
+    team1_id: int
+    team1: str
+    team2_id: int
+    team2: str 
+    date: int
+    start_time: str
+    court: int
+    playoff: int
+
+class GameDates(BaseModel):
+    games: list[int]
+
+class GameStats(BaseModel):
+    game_id: int
+    team_id: int
+    team_name: str
+    goals: int
+    assists: int

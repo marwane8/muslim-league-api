@@ -17,8 +17,6 @@ def get_teams(season_id: int, sorter: SortBy=SortBy.ROSTER) -> list[Team]:
     return standings
 
 
-
-
 def get_players_by_team(team_id: int):
     players = get_players_data(team_id)
     return players
@@ -37,3 +35,12 @@ def get_stat_leaders(stat: Stat,season_id: int) -> list[PlayerTotals]:
     else:
         player_totals = []
     return player_totals[:10]
+
+
+def get_games_dates_by_season(season_id: int) -> list[int]:
+    games = get_game_dates(season_id)
+    return games
+
+def get_games_stats(game_id: int) -> list[GameStats]:
+    game_stats = get_game_stats_data(game_id)
+    return game_stats
