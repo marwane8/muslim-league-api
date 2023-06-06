@@ -48,3 +48,37 @@ def map_rows_to_player_totals(rows) -> list[PlayerTotals]:
         )
         player_totals.append(team)
     return player_totals
+
+def map_rows_to_games(rows) -> list[Game]:
+        games = []
+        for row in rows:
+                game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff = row
+                game = Game(
+                    game_id=game_id,
+                    team1_id=team1_id,
+                    team1=team1,
+                    team2_id=team2_id,
+                    team2=team2,
+                    date=date,
+                    start_time=start_time,
+                    court=court,
+                    playoff=playoff
+                )
+                games.append(game)
+        return games 
+
+
+def map_rows_to_stats(rows) -> list[GameStats]:
+    game_stats = []
+    for row in rows:
+        game_id,team_id,team_name,goals,assists = row
+        game_stat = GameStats(
+            game_id=game_id,
+            team_id=team_id,
+            team_name=team_name,
+            goals=goals,
+            assists=assists
+        )
+        game_stats.append(game_stat)
+
+    return game_stats

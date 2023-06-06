@@ -21,7 +21,6 @@ def get_players_data(team_id: int) -> list[Player]:
     return players 
 
 
-
 def get_player_totals_data(season_id: int=None) -> list[PlayerTotals]:
     #TODO: Implement Season Filter in DB
     player_totals_query = "SELECT p_id, player_name, games_played, goals, assists FROM player_totals"
@@ -29,4 +28,24 @@ def get_player_totals_data(season_id: int=None) -> list[PlayerTotals]:
     player_totals = map_rows_to_player_totals(player_totals_records) 
     return player_totals
 
+#--------------
+# Games  
+#--------------
+def get_game_dates(season_id: int) -> list[int]:
+    game_day_query = "SELECT date FROM Games GROUP BY date"
+    game_days_records= execute_sql_statement(DB.SOCCER,game_day_query)
+    dates = [record[0] for record in game_days_records] 
+    return dates
+
+def get_games_of_date(date: int) -> list[Game]:
+    game_query= "SELECT game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff FROM schedule WHERE date = ?"
+    games_records = execute_sql_statement(DB.SOCCER,game_query,(date,))
+    games = map_rows_to_games(games_records)
+    return games
+
+def get_game_stats_data(game_id: int) -> list[GameStats]:
+    game_stats_query= "SELECT g_id,t_id,team_name,goals,assists FROM game_totals WHERE g_id = ?"
+    games_records = execute_sql_statement(DB.SOCCER,game_stats_query,(game_id,))
+    games = map_rows_to_stats(games_records)
+    return games
 
