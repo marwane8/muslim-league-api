@@ -33,8 +33,8 @@ def get_players_data(team_id: int) -> list[Player]:
 
 def get_player_totals_data(season_id: int=None) -> list[PlayerTotals]:
     #TODO: Implement Season Filter in DB
-    player_totals_query = "SELECT p_id, player_name, games_played, goals, assists FROM player_totals"
-    player_totals_records = execute_sql_statement(DB.SOCCER,player_totals_query)
+    player_totals_query = "SELECT p_id, player_name, games_played, goals, assists FROM player_totals WHERE season_id=?"
+    player_totals_records = execute_sql_statement(DB.SOCCER,player_totals_query,(season_id,))
     player_totals = map_rows_to_player_totals(player_totals_records) 
     return player_totals
 
