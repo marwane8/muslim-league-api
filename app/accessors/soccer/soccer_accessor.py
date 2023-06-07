@@ -42,8 +42,8 @@ def get_player_totals_data(season_id: int=None) -> list[PlayerTotals]:
 # Games  
 #--------------
 def get_game_dates(season_id: int) -> list[int]:
-    game_day_query = "SELECT date FROM Games GROUP BY date"
-    game_days_records= execute_sql_statement(DB.SOCCER,game_day_query)
+    game_day_query = "SELECT date FROM games WHERE season_id=? GROUP BY date"
+    game_days_records= execute_sql_statement(DB.SOCCER,game_day_query,(season_id,))
     dates = [record[0] for record in game_days_records] 
     return dates
 
