@@ -2,6 +2,9 @@ from enum import Enum
 from ..accessors.soccer.soccer_accessor import *
 from ..accessors.soccer.soccer_models import *
 
+def get_seasons():
+    seasons = get_seasons_data()
+    return seasons 
 
 
 class SortBy(Enum):

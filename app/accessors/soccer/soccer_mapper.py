@@ -1,5 +1,17 @@
 from .soccer_models import *
 
+def map_rows_to_seasons(rows) -> list[Season]:
+    seasons = []
+    for row in rows:
+        season_id,season_name,year = row
+        season = Season(
+             season_id=season_id,
+             season_name=season_name,
+             year=year
+        )
+        seasons.append(season)
+    return seasons
+
 def map_rows_to_teams(rows) -> list[Team]:
     teams = []
     for row in rows:

@@ -3,6 +3,16 @@ from .soccer_models import *
 from ..db_utils import DB,execute_sql_statement,fetchone_sql_statement,commit_sql_statement
 
 #--------------
+# Seasons  
+#--------------
+def get_seasons_data() -> list[Season]:
+    teams_query = "SELECT season_id, season_name, year FROM seasons"
+    teams_records = execute_sql_statement(DB.SOCCER,teams_query)
+    teams = map_rows_to_seasons(teams_records) 
+    return teams
+
+
+#--------------
 # Teams  
 #--------------
 def get_teams_data(season_id: int) -> list[Team]:

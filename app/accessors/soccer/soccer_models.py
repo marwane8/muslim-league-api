@@ -1,5 +1,10 @@
 from pydantic import BaseModel 
 
+class Season(BaseModel):
+    season_id: int
+    season_name: str
+    year: int
+
 class Team(BaseModel):
     team_id: int
     season_id: int

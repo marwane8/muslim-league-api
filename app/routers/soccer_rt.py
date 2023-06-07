@@ -7,6 +7,14 @@ router = APIRouter(
     prefix="/api/v1/soccer",
     tags=["soccer"]
 )
+#--------------
+# Season API Endpoints
+#--------------
+get_teams_summary= "Returns a list of all available seasons"
+@router.get("/seasons" ,summary=get_teams_summary, response_model=list[Season])
+def get_all_seasons():
+    seasons = get_seasons()
+    return seasons 
 
 #--------------
 # Team API Endpoints
@@ -60,7 +68,6 @@ get_game_by_date_summary= "Returns a list of games for a given date"
 def get_games_by_date(date: int = Path(None,description="Date fromated YYYYMMDD")):
     games = get_games_of_date(date)
     return games
-
 
 get_game_stats_summary= "get all statistics of each game"
 @router.get("/games/stats/{game_id}" ,summary=get_game_stats_summary, response_model=list[GameStats])
