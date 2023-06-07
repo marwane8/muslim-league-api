@@ -16,7 +16,6 @@ def get_roster(season_id: int = Path(None,description="ID of a Season")):
     teams = get_all_teams(season_id)
     return teams 
 
-
 get_standings_summary = "Returns a sorted list of teams of a given season id according their prefomance records"
 @router.get("/teams/{season_id}/standings" ,summary=get_standings_summary, response_model=list[TeamStats])
 def get_standings(season_id: int = Path(None,description="The ID of a Season")):

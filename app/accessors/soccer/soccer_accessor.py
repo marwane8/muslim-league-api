@@ -3,6 +3,16 @@ from .soccer_models import *
 from ..db_utils import DB,execute_sql_statement,fetchone_sql_statement,commit_sql_statement
 
 #--------------
+# Seasons  
+#--------------
+def get_seasons_data() -> list[Season]:
+    teams_query = "SELECT season_id, season_name, year FROM seasons"
+    teams_records = execute_sql_statement(DB.SOCCER,teams_query)
+    teams = map_rows_to_seasons(teams_records) 
+    return teams
+
+
+#--------------
 # Teams  
 #--------------
 def get_teams_data(season_id: int) -> list[Team]:
@@ -23,8 +33,8 @@ def get_players_data(team_id: int) -> list[Player]:
 
 def get_player_totals_data(season_id: int=None) -> list[PlayerTotals]:
     #TODO: Implement Season Filter in DB
-    player_totals_query = "SELECT p_id, player_name, games_played, goals, assists FROM player_totals"
-    player_totals_records = execute_sql_statement(DB.SOCCER,player_totals_query)
+    player_totals_query = "SELECT p_id, player_name, games_played, goals, assists FROM player_totals WHERE season_id=?"
+    player_totals_records = execute_sql_statement(DB.SOCCER,player_totals_query,(season_id,))
     player_totals = map_rows_to_player_totals(player_totals_records) 
     return player_totals
 
@@ -32,8 +42,8 @@ def get_player_totals_data(season_id: int=None) -> list[PlayerTotals]:
 # Games  
 #--------------
 def get_game_dates(season_id: int) -> list[int]:
-    game_day_query = "SELECT date FROM Games GROUP BY date"
-    game_days_records= execute_sql_statement(DB.SOCCER,game_day_query)
+    game_day_query = "SELECT date FROM games WHERE season_id=? GROUP BY date"
+    game_days_records= execute_sql_statement(DB.SOCCER,game_day_query,(season_id,))
     dates = [record[0] for record in game_days_records] 
     return dates
 
