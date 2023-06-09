@@ -1,6 +1,6 @@
 from .soccer_mapper import *
 from .soccer_models import *
-from ..db_utils import DB,execute_sql_statement,fetchone_sql_statement,commit_sql_statement
+from ..db_utils import DB,execute_sql_statement,execute_bulk_insert,fetchone_sql_statement
 
 #--------------
 # Seasons  
@@ -65,3 +65,30 @@ def get_game_stats_data(game_id: int) -> list[GameStats]:
     games = map_rows_to_stats(games_records)
     return games
 
+#--------------
+# Games  
+#--------------
+def insert_soccer_stats(stats: list[SoccerStat]):
+    gameID = stats[0].game_id
+
+    # Only insert game stats if they dont already exsist 
+    isGameAdded = check_for_game_stats(gameID)
+
+    if isGameAdded: raise ValueError('Game of gameid: {} has been previously populated'.format(gameID))
+
+    stat_values = [(stat.game_id,stat.player_id,stat.goals,stat.assists,) for stat in stats]
+    query_insert = """
+    INSERT INTO statistics (game_id, player_id, goals, assists)
+    VALUES (?, ?, ?, ?);
+    """
+    execute_bulk_insert(DB.SOCCER,query_insert,stat_values)
+
+def check_for_game_stats(gameID: int)-> bool: 
+    check_games_query = """
+    SELECT game_id 
+    FROM statistics
+    WHERE game_id = ? LIMIT 1;
+    """
+    record = fetchone_sql_statement(DB.SOCCER,check_games_query,(gameID,))
+    if not record: return False 
+    return True

@@ -106,3 +106,24 @@ def commit_sql_statement(database: DB,query,values) -> list:
         if connection:
             connection.close()
             print("Closing SQLite Connection")
+
+def execute_bulk_insert(database: DB,query,values: list[tuple]) -> list:
+    db_url = get_db_url(database)
+    try:
+        connection = sqlite3.connect(db_url)
+        connection.execute("PRAGMA foreign_keys = ON") 
+        cursor = connection.cursor()
+
+        for value in values:
+            cursor.execute(query,value)
+
+        log_message = 'Updating query: {} with | number of values {}'.format(query,len(values))
+        print(log_message)
+        connection.commit()
+    except sqlite3.Error as error:
+        raise RuntimeError('SQL error inserting data: {}'.format(error))
+    finally:
+        if connection:
+            connection.close()
+            print("Closing SQLite Connection")
+
