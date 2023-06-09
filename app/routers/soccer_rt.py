@@ -56,9 +56,16 @@ def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a
 #--------------
 # Game API Endpoints
 #--------------
+get_game_summary= "Returns a list of all games of a specific season"
+@router.get("/games/season/{season_id}" ,summary=get_game_summary, response_model=list[Game])
+def get_games(season_id: int = Path(None,description="The ID of a Season")):
+    games = get_games_by_season(season_id)
+    return games
+
+
 get_game_summary= "Returns a list of all the dates games are played in the database"
 @router.get("/games/{season_id}/dates" ,summary=get_game_summary, response_model=GameDates)
-def get_games(season_id: int = Path(None,description="The ID of a Season")):
+def get_games_dates(season_id: int = Path(None,description="The ID of a Season")):
     games = get_games_dates_by_season(season_id)
     game_dates=GameDates(games=games)
     return game_dates

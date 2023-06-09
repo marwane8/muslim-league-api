@@ -33,6 +33,7 @@ class PlayerTotals(BaseModel):
     assists: int
    
 class Game(BaseModel):
+    season_id: int
     game_id: int
     team1_id: int
     team1: str

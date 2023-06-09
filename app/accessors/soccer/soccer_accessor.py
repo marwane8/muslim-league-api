@@ -41,6 +41,12 @@ def get_player_totals_data(season_id: int=None) -> list[PlayerTotals]:
 #--------------
 # Games  
 #--------------
+def get_season_games(season_id: int) -> list[int]:
+    game_query= "SELECT season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff FROM schedule WHERE season_id = ?"
+    games_records = execute_sql_statement(DB.SOCCER,game_query,(season_id,))
+    games = map_rows_to_games(games_records)
+    return games 
+
 def get_game_dates(season_id: int) -> list[int]:
     game_day_query = "SELECT date FROM games WHERE season_id=? GROUP BY date"
     game_days_records= execute_sql_statement(DB.SOCCER,game_day_query,(season_id,))
@@ -48,7 +54,7 @@ def get_game_dates(season_id: int) -> list[int]:
     return dates
 
 def get_games_of_date(date: int) -> list[Game]:
-    game_query= "SELECT game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff FROM schedule WHERE date = ?"
+    game_query= "SELECT season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff FROM schedule WHERE date = ?"
     games_records = execute_sql_statement(DB.SOCCER,game_query,(date,))
     games = map_rows_to_games(games_records)
     return games

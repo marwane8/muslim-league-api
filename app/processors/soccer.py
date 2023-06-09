@@ -39,6 +39,10 @@ def get_stat_leaders(stat: Stat,season_id: int) -> list[PlayerTotals]:
         player_totals = []
     return player_totals[:10]
 
+def get_games_by_season(season_id: int) -> list[int]:
+    games = get_season_games(season_id)
+    return games
+
 
 def get_games_dates_by_season(season_id: int) -> list[int]:
     games = get_game_dates(season_id)
