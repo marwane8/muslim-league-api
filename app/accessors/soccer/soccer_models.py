@@ -33,6 +33,7 @@ class PlayerTotals(BaseModel):
     assists: int
    
 class Game(BaseModel):
+    season_id: int
     game_id: int
     team1_id: int
     team1: str
@@ -50,5 +51,11 @@ class GameStats(BaseModel):
     game_id: int
     team_id: int
     team_name: str
+    goals: int
+    assists: int
+
+class SoccerStat(BaseModel):
+    game_id: int
+    player_id: int
     goals: int
     assists: int

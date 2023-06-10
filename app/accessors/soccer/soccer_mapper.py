@@ -64,8 +64,9 @@ def map_rows_to_player_totals(rows) -> list[PlayerTotals]:
 def map_rows_to_games(rows) -> list[Game]:
         games = []
         for row in rows:
-                game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff = row
+                season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff = row
                 game = Game(
+                    season_id=season_id,
                     game_id=game_id,
                     team1_id=team1_id,
                     team1=team1,

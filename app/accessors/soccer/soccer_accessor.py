@@ -1,6 +1,6 @@
 from .soccer_mapper import *
 from .soccer_models import *
-from ..db_utils import DB,execute_sql_statement,fetchone_sql_statement,commit_sql_statement
+from ..db_utils import DB,execute_sql_statement,execute_bulk_insert,fetchone_sql_statement
 
 #--------------
 # Seasons  
@@ -41,6 +41,12 @@ def get_player_totals_data(season_id: int=None) -> list[PlayerTotals]:
 #--------------
 # Games  
 #--------------
+def get_season_games(season_id: int) -> list[int]:
+    game_query= "SELECT season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff FROM schedule WHERE season_id = ?"
+    games_records = execute_sql_statement(DB.SOCCER,game_query,(season_id,))
+    games = map_rows_to_games(games_records)
+    return games 
+
 def get_game_dates(season_id: int) -> list[int]:
     game_day_query = "SELECT date FROM games WHERE season_id=? GROUP BY date"
     game_days_records= execute_sql_statement(DB.SOCCER,game_day_query,(season_id,))
@@ -48,7 +54,7 @@ def get_game_dates(season_id: int) -> list[int]:
     return dates
 
 def get_games_of_date(date: int) -> list[Game]:
-    game_query= "SELECT game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff FROM schedule WHERE date = ?"
+    game_query= "SELECT season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff FROM schedule WHERE date = ?"
     games_records = execute_sql_statement(DB.SOCCER,game_query,(date,))
     games = map_rows_to_games(games_records)
     return games
@@ -59,3 +65,30 @@ def get_game_stats_data(game_id: int) -> list[GameStats]:
     games = map_rows_to_stats(games_records)
     return games
 
+#--------------
+# Games  
+#--------------
+def insert_soccer_stats(stats: list[SoccerStat]):
+    gameID = stats[0].game_id
+
+    # Only insert game stats if they dont already exsist 
+    isGameAdded = check_for_game_stats(gameID)
+
+    if isGameAdded: raise ValueError('this game has been previously populated'.format(gameID))
+
+    stat_values = [(stat.game_id,stat.player_id,stat.goals,stat.assists,) for stat in stats]
+    query_insert = """
+    INSERT INTO statistics (game_id, player_id, goals, assists)
+    VALUES (?, ?, ?, ?);
+    """
+    execute_bulk_insert(DB.SOCCER,query_insert,stat_values)
+
+def check_for_game_stats(gameID: int)-> bool: 
+    check_games_query = """
+    SELECT game_id 
+    FROM statistics
+    WHERE game_id = ? LIMIT 1;
+    """
+    record = fetchone_sql_statement(DB.SOCCER,check_games_query,(gameID,))
+    if not record: return False 
+    return True
