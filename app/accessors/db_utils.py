@@ -121,7 +121,7 @@ def execute_bulk_insert(database: DB,query,values: list[tuple]) -> list:
         print(log_message)
         connection.commit()
     except sqlite3.Error as error:
-        raise RuntimeError('SQL error inserting data: {}'.format(error))
+        raise RuntimeError('error inserting data - {}'.format(error))
     finally:
         if connection:
             connection.close()

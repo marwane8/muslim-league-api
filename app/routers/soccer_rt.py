@@ -1,5 +1,6 @@
 from fastapi import APIRouter,Path, HTTPException, Depends
 from app.auth_deps import get_current_user
+from app.user_models import User
 
 from app.accessors.soccer.soccer_models import *
 from app.processors.soccer import *
@@ -85,7 +86,7 @@ def get_games_statistics(game_id: int = Path(None,description="ID for game")):
 
 insert_game_stats_summary= "insert statistics bulk statistics"
 @router.put("/stats/insert" ,summary=get_game_stats_summary)
-def insert_games_statistics(stats: list[SoccerStat] = Depends(get_current_user)):
+def insert_games_statistics(stats: list[SoccerStat],user: User = Depends(get_current_user)):
     try:
         insert_soccer_stats(stats)
     except Exception as e:

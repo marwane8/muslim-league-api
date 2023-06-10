@@ -74,7 +74,7 @@ def insert_soccer_stats(stats: list[SoccerStat]):
     # Only insert game stats if they dont already exsist 
     isGameAdded = check_for_game_stats(gameID)
 
-    if isGameAdded: raise ValueError('Game of gameid: {} has been previously populated'.format(gameID))
+    if isGameAdded: raise ValueError('this game has been previously populated'.format(gameID))
 
     stat_values = [(stat.game_id,stat.player_id,stat.goals,stat.assists,) for stat in stats]
     query_insert = """
