@@ -53,3 +53,8 @@ class GameStats(BaseModel):
     points: int
     rebounds: int
     fouls: int
+
+class Season(BaseModel):
+    season_id: int
+    season_name: str
+    year: int

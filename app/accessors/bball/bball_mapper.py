@@ -1,4 +1,17 @@
-from .bball_models import Player,PlayerStats,Team,TeamStats,GameDates,Game,GameStats
+from .bball_models import Player,PlayerStats,Team,TeamStats,GameDates,Game,GameStats,Season
+
+def map_rows_to_seasons(rows) -> list[Season]:
+    seasons = []
+    for row in rows:
+        season_id,season_name,year = row
+        season = Season(
+             season_id=season_id,
+             season_name=season_name,
+             year=year
+        )
+        seasons.append(season)
+    return seasons
+
 
 def map_row_to_team(record: list) -> list[Team]:
         teams = []
