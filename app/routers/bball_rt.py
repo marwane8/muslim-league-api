@@ -1,13 +1,23 @@
 from fastapi import APIRouter,Path
 
 from app.accessors.bball.bball_accessor import *
+from app.processors.bball import *
 
 router = APIRouter(
     prefix="/api/v1/bball",
     tags=["bball"]
 )
-
 #--------------
+# Season API Endpoints
+#--------------
+get_teams_summary= "Returns a list of all available seasons"
+@router.get("/seasons" ,summary=get_teams_summary, response_model=list[Season])
+def get_all_seasons():
+    seasons = get_seasons()
+    return seasons 
+
+
+#-------------
 # Team API Endpoints
 #--------------
 get_teams_summary= "Returns a list of teams associated with the given season"
