@@ -47,9 +47,9 @@ get_stat_leaders_summary= "Returns a list of the top players of a given statisti
 def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a Season"),category: str= Path(None,description="Statiscal Category eg. Points, Rebounds")):
     match category:
         case "points":
-            return  get_points_leaders()
+            return get_stat_leaders(Stat.POINTS,season_id)
         case "rebounds":
-            return  get_rebound_leaders()
+            return get_stat_leaders(Stat.REBOUNDS,season_id)
     return [] 
 
 #--------------

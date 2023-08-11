@@ -9,7 +9,8 @@ class Player(BaseModel):
 class PlayerStats(BaseModel):
     id: int
     name: str | None = None
-    stat: str 
+    games: int
+    stat: int 
 
 class TeamRanks(BaseModel):
     id: int

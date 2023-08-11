@@ -1,3 +1,5 @@
+
+from enum import Enum
 from .bball_mapper import *
 from .bball_models import Player,PlayerStats,Team,TeamStats,GameDates,Game,GameStats,Season
 from ..db_utils import DB,execute_sql_statement,fetchone_sql_statement,commit_sql_statement
@@ -36,6 +38,25 @@ def get_team_roster(team_id: int) -> list[Player]:
     roster_records = execute_sql_statement(DB.BBALL,roster_query,(team_id,))
     roster = map_row_to_player(roster_records)
     return roster
+
+
+class Stat(Enum):
+    POINTS = 1
+    REBOUNDS = 2
+
+def get_stat_leaders_data(stat: Stat,season_id: int) -> list[PlayerStats]:
+
+    stat_query = ""
+    if stat == Stat.POINTS:
+        stat_query = "SELECT p_id,name,games_played,points FROM player_totals WHERE season_id=?"
+    elif stat == Stat.REBOUNDS:
+        stat_query = "SELECT p_id,name,games_played,rebounds FROM player_totals WHERE season_id=?"
+
+    stat_records = execute_sql_statement(DB.BBALL,stat_query,(season_id,))  
+    player_stats = map_row_to_stat(stat_records)
+    
+    return player_stats 
+
 
 def get_points_leaders(season_id: int=None) -> list[PlayerStats]:
     #TODO: Implement Season Filter in DB

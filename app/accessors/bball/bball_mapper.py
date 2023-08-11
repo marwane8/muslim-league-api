@@ -46,6 +46,18 @@ def map_row_to_player(record: list) -> list[Player]:
                 roster.append(Player(id=p_id,name=p_name,number=p_num,pos=p_pos))
         return roster
 
+def map_row_to_stat(record: list) -> list[PlayerStats]:
+        roster = []
+        if record == []:
+            print("No records found for requested team")
+        else:
+            for player_stat in record:
+                p_id,p_name,p_games,p_stat = player_stat
+                roster.append(PlayerStats(id=p_id,name=p_name,games=p_games,stat=p_stat))
+        return roster
+
+
+
 def map_row_to_games(record: list) -> list[Game]:
         games = []
         if record == []:
