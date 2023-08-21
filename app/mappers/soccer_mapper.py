@@ -1,16 +1,4 @@
-from .soccer_models import *
-
-def map_rows_to_seasons(rows) -> list[Season]:
-    seasons = []
-    for row in rows:
-        season_id,season_name,year = row
-        season = Season(
-             season_id=season_id,
-             season_name=season_name,
-             year=year
-        )
-        seasons.append(season)
-    return seasons
+from ..models.soccer_models import *
 
 def map_rows_to_teams(rows) -> list[Team]:
     teams = []
@@ -31,21 +19,6 @@ def map_rows_to_teams(rows) -> list[Team]:
         teams.append(team)
     return teams
 
-
-def map_rows_to_players(rows) -> list[Player]:
-    players = []
-    for row in rows:
-        player_id,team_id,team_name,player_name,player_number,player_pos  = row
-        player = Player(
-            player_id=player_id,
-            team_id=team_id,
-            team_name=team_name,
-            player_name=player_name,
-            player_number=player_number,
-            player_pos=player_pos
-        )
-        players.append(player)
-    return players
 
 def map_rows_to_player_totals(rows) -> list[PlayerTotals]:
     player_totals = []
@@ -80,18 +53,3 @@ def map_rows_to_games(rows) -> list[Game]:
                 games.append(game)
         return games 
 
-
-def map_rows_to_stats(rows) -> list[GameStats]:
-    game_stats = []
-    for row in rows:
-        game_id,team_id,team_name,goals,assists = row
-        game_stat = GameStats(
-            game_id=game_id,
-            team_id=team_id,
-            team_name=team_name,
-            goals=goals,
-            assists=assists
-        )
-        game_stats.append(game_stat)
-
-    return game_stats

@@ -1,5 +1,5 @@
 from app.auth_deps import get_current_user,badLoginException
-from app.user_models import User,TokenSchema
+from app.models.user_models import User,TokenSchema
 from fastapi import FastAPI, Path, Depends,Response
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware

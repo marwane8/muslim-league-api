@@ -1,4 +1,5 @@
-from .bball_models import Player,PlayerStats,Team,TeamStats,GameDates,Game,GameStats,Season
+from ..models.bball_models import Player,Team,TeamStats,GameDates,Game,GameStats,Season
+from ..league_models import PlayerStats
 
 def map_rows_to_seasons(rows) -> list[Season]:
     seasons = []
