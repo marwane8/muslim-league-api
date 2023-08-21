@@ -1,10 +1,12 @@
 from fastapi import APIRouter,Path
 
+from app.accessors.bball_accessor import *
+from app.processors.bball_processor import BasketballProcessor
+
 from ..models.bball_models import *
 from ..models.sport_models import *
 
-from app.accessors.bball_accessor import *
-from app.processors.bball_processor import BasketballProcessor
+
 
 router = APIRouter(
     prefix="/api/v1/bball",

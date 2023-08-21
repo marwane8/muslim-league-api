@@ -2,8 +2,8 @@ from .sport_accessor import SportAccessor
 
 from app.models.sport_models import Sport
 from ..models.bball_models import BballStat
-from ..mappers.sport_mapper import map_row_to_stat
-from ..mappers.bball_mapper import map_row_to_team, map_row_to_games
+from ..mappers.sport_mapper import map_row_to_stat,map_row_to_games
+from ..mappers.bball_mapper import map_row_to_team 
 from ..db_utils import execute_sql_statement
 
 

@@ -2,9 +2,8 @@ from fastapi import APIRouter,Path, HTTPException, Depends
 from app.auth_deps import get_current_user
 from app.models.user_models import User
 
+from app.models.sport_models import *
 from app.models.soccer_models import *
-from ..league_models import PlayerStats
-from app.processors.soccer import *
 from app.processors.soccer_processor import SoccerProcessor
 
 router = APIRouter(
@@ -46,7 +45,7 @@ def get_team_players(team_id: int = Path(None,description="The ID of a Team")):
 
 
 get_stat_leaders_summary= "Returns a list of the top players of a given statistical category" 
-@router.get("/players/{season_id}/stat/{category}" ,summary=get_stat_leaders_summary, response_model=list[PlayerStats])
+@router.get("/players/{season_id}/stat/{category}" ,summary=get_stat_leaders_summary, response_model=list[PlayerStat])
 def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a Season"),category: str= Path(None,description="Statiscal Category eg. goals, assists")):
     match category:
         case "goals":

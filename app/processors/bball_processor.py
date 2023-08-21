@@ -1,6 +1,10 @@
-from ..accessors.bball_accessor import BasketballAccessor
 from .sport_processor import SportProcessor
-from ..models.soccer_models import SoccerStat
+
+from ..accessors.bball_accessor import BasketballAccessor
+from ..models.bball_models import *
+from ..models.sport_models import *
+
+
 
 
 class BasketballProcessor(SportProcessor):
@@ -30,7 +34,7 @@ class BasketballProcessor(SportProcessor):
     def get_game_stats(self,game_id: int):
         return self.db_accessor.get_game_stats_data(game_id)
     
-    def get_stat_leaders(self, stat: SoccerStat, season_id: int):
+    def get_stat_leaders(self, stat: BballStat, season_id: int):
         stat_leaders = self.db_accessor.get_player_stats_data(stat,season_id)
         stat_leaders.sort(key=lambda player: (-player.stat))
         return stat_leaders[:10]
