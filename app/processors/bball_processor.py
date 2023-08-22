@@ -16,7 +16,7 @@ class BasketballProcessor(SportProcessor):
 
     def get_teams(self,season_id: int):
         teams = self.db_accessor.get_teams_data(season_id)
-        teams.sort(key=lambda team: (-team.points))
+        teams.sort(key=lambda team: (-team.wins))
         return teams
 
     def get_players(self,team_id: int):

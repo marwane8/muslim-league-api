@@ -21,7 +21,6 @@ class Team(BaseModel):
     points_for: int
     points_against: int
     rebounds_total: int
-    diff: int
 
 class GameStats(BaseModel):
     game_id: int

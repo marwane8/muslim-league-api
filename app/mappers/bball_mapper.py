@@ -7,22 +7,13 @@ def map_row_to_team(record: list) -> list[Team]:
             print("No records found for requested team")
         else:
             for team_info in record:
-                t_id,t_name = team_info
-                teams.append(Team(id=t_id,name=t_name))
-        return teams 
+                (id, name, wins, loss, points_for, 
+                 points_against, rebounds_total) = team_info
 
-def map_teams_to_standings(records: list) -> list[Team]:
-    standings = []
-    if records == []:
-        print("Not teams found for requested season")
-    else:
-        for team_data in records:
-            diff = team_data[4] - team_data[5]
-            id,name,w,l,pf,pa,rebs = team_data[0:7] 
-            team = Team(id=id,name=name,wins=w,loss=l,points_for=pf,points_against=pa,rebounds_total=rebs,diff=diff)
-            standings.append(team)
-        standings.sort(key=lambda t: (-t.wins, -t.diff))
-    return standings
+                teams.append(Team(id=id,name=name,wins=wins,loss=loss,
+                            points_for=points_for,points_against=points_against,
+                            rebounds_total=rebounds_total))
+        return teams 
 
 
 def map_game_stats(records: list[tuple]) -> list[GameStats]:

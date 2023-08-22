@@ -20,9 +20,9 @@ def map_rows_to_players(rows) -> list[Player]:
             player_id=player_id,
             team_id=team_id,
             team_name=team_name,
-            player_name=player_name,
-            player_number=player_number,
-            player_pos=player_pos
+            name=player_name,
+            number=player_number,
+            pos=player_pos
         )
         players.append(player)
     return players
