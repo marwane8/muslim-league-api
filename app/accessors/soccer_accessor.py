@@ -36,9 +36,9 @@ class SoccerAccessor(SportAccessor):
     def get_player_stats_data(self,stat: SoccerStat,season_id: int):
         stat_query = ""
         if stat == SoccerStat.GOALS:
-            stat_query = "SELECT p_id,name,games_played,goals FROM player_totals WHERE season_id=?"
+            stat_query = "SELECT p_id,player_name,games_played,goals FROM player_totals WHERE season_id=?"
         elif stat == SoccerStat.ASSISTS:
-            stat_query = "SELECT p_id,name,games_played,assists FROM player_totals WHERE season_id=?"
+            stat_query = "SELECT p_id,player_name,games_played,assists FROM player_totals WHERE season_id=?"
 
         stat_records = execute_sql_statement(self.SPORT,stat_query,(season_id,))  
         player_stats = map_row_to_stat(stat_records)

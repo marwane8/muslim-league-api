@@ -1,7 +1,8 @@
 from .sport_models import Stat
 from pydantic import BaseModel 
+from enum import Enum
 
-class SoccerStat(Stat):
+class SoccerStat(Enum):
     GOALS = 1
     ASSISTS = 2
 
@@ -24,7 +25,7 @@ class GameStats(BaseModel):
     goals: int
     assists: int
 
-class SoccerStat(BaseModel):
+class GameStat(BaseModel):
     game_id: int
     player_id: int
     goals: int

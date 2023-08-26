@@ -1,7 +1,6 @@
 from .sport_models import Stat
 from pydantic import BaseModel 
 
-
 class BballStat(Stat):
     POINTS = 1
     REBOUNDS = 2
