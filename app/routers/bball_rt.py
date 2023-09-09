@@ -7,7 +7,6 @@ from ..models.bball_models import *
 from ..models.sport_models import *
 
 
-
 router = APIRouter(
     prefix="/api/v1/bball",
     tags=["bball"]
@@ -58,12 +57,19 @@ def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a
 #--------------
 # Games API Endpoints
 #--------------
-get_game_summary= "Returns a list of all the dates games are played in the database"
+get_game_summary= "Returns a list of all dates games are played in a season"
 @router.get("/games/{season_id}/dates" ,summary=get_game_summary, response_model=list[int])
 def get_games(season_id: int = Path(None,description="The ID of a Season")):
     return bball_proc.get_game_dates_by_season(season_id)
 
 get_game_by_date_summary= "Returns a list of games for a given date"
-@router.get("/games/{date}" ,summary=get_game_summary, response_model=list[Game])
+@router.get("/games/{date}" ,summary=get_game_by_date_summary, response_model=list[Game])
 def get_games_by_date(date: int = Path(None,description="Date fromated YYYYMMDD")):
     return bball_proc.get_games_by_date(date)
+
+get_game_stats_summary= "Return that stat totals of each team for a game"
+@router.get("/games/stats/{game_id}" ,summary=get_game_stats_summary, response_model=list[GameStats])
+def get_games(game_id: int = Path(None,description="The ID of a Game")):
+    #TODO: Implement in bball_proc
+    return bball_proc.get_game_stats(game_id)
+

@@ -16,14 +16,21 @@ def map_row_to_team(record: list) -> list[Team]:
         return teams 
 
 
-def map_game_stats(records: list[tuple]) -> list[GameStats]:
+def map_row_to_game_stats(records: list[tuple]) -> list[GameStats]:
     game_stats = []
     if records == []:
         print("Not teams found for requested season")
     else:
         for game_data in records:
             g_id,t_id,team_name,total_pts,total_reb,fls = game_data[:6] 
-            game = GameStats(game_id=g_id,team_id=t_id,team_name=team_name,points=total_pts,rebounds=total_reb,fouls=fls)
+            game = GameStats(
+                 game_id=g_id,
+                 team_id=t_id,
+                 team_name=team_name,
+                 points=total_pts,
+                 rebounds=total_reb,
+                 fouls=fls
+            )
             game_stats.append(game)
 
     return game_stats
