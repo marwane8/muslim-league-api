@@ -6,8 +6,8 @@ from jose import jwt
 from passlib.context import CryptContext
 
 
-from app.user_models import User
-from .accessors.db_utils import DB,fetchone_sql_statement
+from app.models.user_models import User
+from .db_utils import DB,fetchone_sql_statement
 
 ENVIRONMENT = os.environ.get('ML_ENV') 
 

@@ -2,7 +2,9 @@ import os
 import sqlite3
 from enum import Enum
 from passlib.context import CryptContext
-from app.user_models import User
+from app.models.user_models import User
+
+from .models.sport_models import Sport
 
 
 USERS_DB_URL = os.environ.get('USERS_DB_URL') 
@@ -13,6 +15,12 @@ class DB(Enum):
     USERS = 1
     BBALL = 2
     SOCCER = 3
+
+DB_STR = {
+    Sport.BASKETBALL: BBALL_DB_URL,
+    Sport.SOCCER: SOCCER_DB_URL
+}
+
 
 def get_db_url(database: DB) -> str:
     databases = {
@@ -44,9 +52,10 @@ def get_credentials_from_db(username: str) -> User | None:
 
 
 # DB Access Utilities
-def fetchone_sql_statement(database: DB,query,values) -> list:
-    db_url = get_db_url(database)
-    print(db_url)
+def fetchone_sql_statement(sport: Sport,query,values) -> list:
+    db_url = DB_STR.get(sport)
+    if not db_url:
+        db_url = USERS_DB_URL
     try:
         connection = sqlite3.connect(db_url)
         cursor = connection.cursor()
@@ -65,8 +74,8 @@ def fetchone_sql_statement(database: DB,query,values) -> list:
             print("Closing SQLite Connection")
 
 
-def execute_sql_statement(database: DB,query,values=None) -> list:
-    db_url = get_db_url(database)
+def execute_sql_statement(sport: Sport,query,values=None) -> list:
+    db_url = DB_STR[sport] 
     try:
         connection = sqlite3.connect(db_url)
         cursor = connection.cursor()
@@ -107,8 +116,8 @@ def commit_sql_statement(database: DB,query,values) -> list:
             connection.close()
             print("Closing SQLite Connection")
 
-def execute_bulk_insert(database: DB,query,values: list[tuple]) -> list:
-    db_url = get_db_url(database)
+def execute_bulk_insert(sport: Sport,query,values: list[tuple]) -> list:
+    db_url = DB_STR[sport] 
     try:
         connection = sqlite3.connect(db_url)
         connection.execute("PRAGMA foreign_keys = ON") 
