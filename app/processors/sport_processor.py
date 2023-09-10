@@ -16,6 +16,10 @@ class SportProcessor(ABC):
         pass
    
     @abstractmethod
+    def get_games_for_season(self,season_id: int):
+        pass
+
+    @abstractmethod
     def get_game_dates_by_season(self,season_id: int):
         pass
 

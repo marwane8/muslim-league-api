@@ -19,6 +19,9 @@ class SoccerProcessor(SportProcessor):
     def get_players(self,team_id: int):
         return self.db_accessor.get_players_data(team_id)
    
+    def get_games_for_season(self, season_id: int):
+        return self.db_accessor.get_games_by_season_data(season_id)
+
     def get_game_dates_by_season(self,season_id: int):
         return self.db_accessor.get_game_dates_by_season_data(season_id)
    
