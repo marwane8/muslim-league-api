@@ -53,8 +53,9 @@ def get_credentials_from_db(username: str) -> User | None:
 
 # DB Access Utilities
 def fetchone_sql_statement(sport: Sport,query,values) -> list:
-    db_url = DB_STR[sport]
-    print(db_url)
+    db_url = DB_STR.get(sport)
+    if not db_url:
+        db_url = USERS_DB_URL
     try:
         connection = sqlite3.connect(db_url)
         cursor = connection.cursor()
