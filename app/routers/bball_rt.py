@@ -26,7 +26,7 @@ def get_all_seasons():
 # Team API Endpoints
 #--------------
 get_teams_summary= "Returns a list of teams associated with the given season"
-@router.get("/teams/{season_id}" ,summary=get_teams_summary, response_model=list[Team])
+@router.get("/teams/{season_id}" ,summary=get_teams_summary, response_model=list[BBallTeamData])
 def get_roster(season_id: int = Path(None,description="ID of a Season")):
     return bball_proc.get_teams(season_id) 
 

@@ -12,9 +12,11 @@ class TeamRanks(BaseModel):
     points_rnk: int 
     rebound_rnk: int 
 
-class Team(BaseModel):
-    id: int
-    name: str | None = None
+class BBallTeamData(BaseModel):
+    team_id: int
+    season_id: int
+    team_name: str | None = None
+    team_captain: str | None = None
     wins: int
     loss: int
     points_for: int

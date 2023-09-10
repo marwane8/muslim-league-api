@@ -13,7 +13,7 @@ class BasketballAccessor(SportAccessor):
         super().__init__(Sport.BASKETBALL)
     
     def get_teams_data(self,season_id: int):
-        teams_query = "SELECT team_id,team_name,wins,losses,PF,PA,rebounds_tot FROM Teams WHERE season_id=?"
+        teams_query = "SELECT team_id, season_id, team_name, team_captain, wins,losses,PF,PA,rebounds_tot FROM Teams WHERE season_id=?"
         teams_records = execute_sql_statement(self.SPORT,teams_query,(season_id,))
         teams = map_row_to_team(teams_records) 
         return teams

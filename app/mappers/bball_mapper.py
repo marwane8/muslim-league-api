@@ -1,18 +1,27 @@
-from ..models.bball_models import Team,GameStats
+from ..models.bball_models import BBallTeamData,GameStats
 
 
-def map_row_to_team(record: list) -> list[Team]:
+def map_row_to_team(record: list) -> list[BBallTeamData]:
         teams = []
         if record == []:
             print("No records found for requested team")
         else:
             for team_info in record:
-                (id, name, wins, loss, points_for, 
+                (id, season_id, name, captain, wins, loss, points_for, 
                  points_against, rebounds_total) = team_info
 
-                teams.append(Team(id=id,name=name,wins=wins,loss=loss,
-                            points_for=points_for,points_against=points_against,
-                            rebounds_total=rebounds_total))
+                teams.append(BBallTeamData(
+                    team_id=id,
+                    season_id=season_id,
+                    team_name=name,
+                    team_captain=captain,
+                    wins=wins,
+                    loss=loss,
+                    points_for=points_for,
+                    points_against=points_against,
+                    rebounds_total=rebounds_total
+                ))
+
         return teams 
 
 
