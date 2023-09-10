@@ -37,6 +37,9 @@ class BasketballProcessor(SportProcessor):
     def get_game_stats(self,game_id: int):
         return self.db_accessor.get_game_stats_data(game_id)
     
+    def get_game_player_stats(self,game_id: int):
+        return self.db_accessor.get_game_player_stats_data(game_id)
+
     def get_stat_leaders(self, stat: BballStat, season_id: int):
         stat_leaders = self.db_accessor.get_player_stats_data(stat,season_id)
         stat_leaders.sort(key=lambda player: (-player.stat))

@@ -30,3 +30,15 @@ class GameStats(BaseModel):
     points: int
     rebounds: int
     fouls: int
+
+class PlayerGameStats(BaseModel):
+    game_id: int
+    team_id: int
+    team_name: str
+    player_id: int
+    stat_id: int
+    player_name: str
+    dnp: int
+    points: int
+    rebounds: int
+    fouls: int

@@ -74,11 +74,18 @@ def get_games_by_date(date: int = Path(None,description="Date fromated YYYYMMDD"
 #--------------
 # Admin Endpoints 
 #--------------
-get_game_stats_summary= "get all statistics of each game"
-@router.get("/games/stats/{game_id}" ,summary=get_game_stats_summary, response_model=list[GameStats])
+get_game_stats_summary= "Return the stat totals of each team for a game"
+@router.get("/games/stats/teams/{game_id}" ,summary=get_game_stats_summary, response_model=list[GameStats])
 def get_games_statistics(game_id: int = Path(None,description="ID for game")):
     game_stats = soccer_proc.get_game_stats(game_id)
     return game_stats
+
+get_game_player_stats_summary= "Return that individual player stats of a game"
+@router.get("/games/stats/players/{game_id}" ,summary=get_game_player_stats_summary, response_model=list[PlayerGameStats])
+def get_game_player_stats(game_id: int = Path(None,description="The ID of a Game")):
+    return soccer_proc.get_game_player_stats(game_id)
+
+
 
 insert_game_stats_summary= "insert statistics bulk statistics"
 @router.put("/stats/insert" ,summary=get_game_stats_summary)

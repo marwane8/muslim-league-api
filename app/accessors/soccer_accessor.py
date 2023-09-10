@@ -45,6 +45,13 @@ class SoccerAccessor(SportAccessor):
         
         return player_stats 
 
+    def get_game_player_stats_data(self, game_id: int):
+        game_stats_query= "SELECT game_id, team_id, team_name, player_id, stat_id, player_name, dnp, goals, assists FROM game_statistics WHERE game_id = ?"
+        games_records = execute_sql_statement(self.SPORT, game_stats_query,(game_id,))
+        games = map_row_to_player_game_stats(games_records)
+        return games
+
+
 
 
 #--------------
@@ -74,3 +81,4 @@ def check_for_game_stats(gameID: int)-> bool:
     record = fetchone_sql_statement(DB.SOCCER,check_games_query,(gameID,))
     if not record: return False 
     return True
+

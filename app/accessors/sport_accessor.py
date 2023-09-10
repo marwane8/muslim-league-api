@@ -50,6 +50,9 @@ class SportAccessor(ABC):
     def get_game_stats_data(self,game_id: int):
         pass
 
+    @abstractmethod
+    def get_game_player_stats_data(self,game_id: int):
+        pass
 
 
 

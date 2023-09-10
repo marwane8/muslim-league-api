@@ -39,3 +39,23 @@ def map_row_to_soccer_game_stats(records: list[tuple]) -> list[GameStats]:
 
     return game_stats
 
+
+def map_row_to_player_game_stats(records:  list[tuple]) -> list[PlayerGameStats]:
+    player_game_stats = []
+    for game_stat in records:
+        game_id, team_id, team_name, player_id, stat_id, player_name, dnp, goals, assists = game_stat
+        stat = PlayerGameStats(
+            game_id=game_id,
+            team_id=team_id,
+            team_name=team_name,
+            player_id=player_id,
+            stat_id=stat_id,
+            player_name=player_name,
+            dnp=dnp,
+            goals=goals,
+            assists=assists
+        )
+
+        player_game_stats.append(stat)
+    
+    return player_game_stats
