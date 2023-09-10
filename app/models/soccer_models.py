@@ -24,9 +24,3 @@ class GameStats(BaseModel):
     team_name: str
     goals: int
     assists: int
-
-class GameStat(BaseModel):
-    game_id: int
-    player_id: int
-    goals: int
-    assists: int

@@ -1,8 +1,8 @@
 from app.models.sport_models import Sport
 from ..models.soccer_models import SoccerStat
 from .sport_accessor import SportAccessor
-from ..mappers.soccer_mapper import map_rows_to_teams
 from ..mappers.sport_mapper import map_row_to_stat
+from ..mappers.soccer_mapper import map_row_to_soccer_game_stats
 from ..db_utils import execute_sql_statement
 from enum import Enum
 
@@ -30,7 +30,7 @@ class SoccerAccessor(SportAccessor):
     def get_game_stats_data(self,game_id: int):
         game_stats_query= "SELECT g_id,t_id,team_name,goals,assists FROM game_totals WHERE g_id = ?"
         games_records = execute_sql_statement(self.SPORT,game_stats_query,(game_id,))
-        games = map_row_to_stat(games_records)
+        games = map_row_to_soccer_game_stats(games_records)
         return games
 
     def get_player_stats_data(self,stat: SoccerStat,season_id: int):

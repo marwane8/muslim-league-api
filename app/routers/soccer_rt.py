@@ -30,12 +30,6 @@ def get_teams_by_season(season_id: int = Path(None,description="ID of a Season")
     return soccer_proc.get_teams(season_id)
 
 
-get_standings_summary = "Returns a sorted list of teams of a given season id according their prefomance records"
-@router.get("/teams/{season_id}/standings" ,summary=get_standings_summary, response_model=list[Team])
-def get_standings(season_id: int = Path(None,description="The ID of a Season")):
-    return soccer_proc.get_teams(season_id)
-
-
 #--------------
 # Player API Endpoints
 #--------------
@@ -61,10 +55,9 @@ def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a
 # Game API Endpoints
 #--------------
 get_game_dates_summary= "Returns a list of all the dates games are played in the database"
-@router.get("/games/{season_id}/dates" ,summary=get_game_dates_summary, response_model=GameDates)
+@router.get("/games/{season_id}/dates" ,summary=get_game_dates_summary, response_model=list[int])
 def get_games_dates(season_id: int = Path(None,description="The ID of a Season")):
-    games = soccer_proc.get_game_dates_by_season(season_id) 
-    game_dates=GameDates(games=games)
+    game_dates = soccer_proc.get_game_dates_by_season(season_id) 
     return game_dates
 
 get_game_by_date_summary= "Returns a list of games for a given date"
@@ -78,7 +71,7 @@ def get_games_by_date(date: int = Path(None,description="Date fromated YYYYMMDD"
 get_game_stats_summary= "get all statistics of each game"
 @router.get("/games/stats/{game_id}" ,summary=get_game_stats_summary, response_model=list[GameStats])
 def get_games_statistics(game_id: int = Path(None,description="ID for game")):
-    game_stats = get_games_stats(game_id)
+    game_stats = soccer_proc.get_game_stats(game_id)
     return game_stats
 
 insert_game_stats_summary= "insert statistics bulk statistics"

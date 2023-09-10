@@ -30,11 +30,6 @@ get_teams_summary= "Returns a list of teams associated with the given season"
 def get_roster(season_id: int = Path(None,description="ID of a Season")):
     return bball_proc.get_teams(season_id) 
 
-get_standings_summary = "Returns a sorted list of teams of a given season id according their prefomance records"
-@router.get("/teams/{season_id}/standings" ,summary=get_standings_summary, response_model=list[Team])
-def get_standings(season_id: int = Path(None,description="The ID of a Season")):
-    return  bball_proc.get_teams(season_id)
-
 
 #--------------
 # Player API Endpoints
