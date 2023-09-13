@@ -32,5 +32,9 @@ class SportProcessor(ABC):
         pass
 
     @abstractmethod
+    def get_game_player_stats(self, game_id: int):
+        pass
+
+    @abstractmethod
     def get_stat_leaders(self, stat: Stat, season_id: int):
         pass

@@ -3,7 +3,7 @@ from .sport_accessor import SportAccessor
 from app.models.sport_models import Sport
 from ..models.bball_models import BballStat
 from ..mappers.sport_mapper import map_row_to_stat,map_row_to_games
-from ..mappers.bball_mapper import map_row_to_team, map_row_to_game_stats
+from ..mappers.bball_mapper import map_row_to_team, map_row_to_game_stats, map_row_to_player_game_stats
 from ..db_utils import execute_sql_statement
 
 
@@ -35,3 +35,9 @@ class BasketballAccessor(SportAccessor):
         player_stats = map_row_to_stat(stat_records)
         return player_stats 
     
+
+    def get_game_player_stats_data(self, game_id: int):
+        game_stats_query= "SELECT game_id, team_id, team_name, player_id, stat_id, player_name, dnp, points, rebounds, fouls FROM game_statistics WHERE game_id = ?"
+        games_records = execute_sql_statement(self.SPORT,game_stats_query,(game_id,))
+        games = map_row_to_player_game_stats(games_records)
+        return games

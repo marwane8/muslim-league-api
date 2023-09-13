@@ -68,9 +68,14 @@ get_game_by_date_summary= "Returns a list of games for a given date"
 def get_games_by_date(date: int = Path(None,description="Date fromated YYYYMMDD")):
     return bball_proc.get_games_by_date(date)
 
-get_game_stats_summary= "Return that stat totals of each team for a game"
-@router.get("/games/stats/{game_id}" ,summary=get_game_stats_summary, response_model=list[GameStats])
+get_game_stats_summary= "Return the stat totals of each team for a game"
+@router.get("/games/stats/teams/{game_id}" ,summary=get_game_stats_summary, response_model=list[GameStats])
 def get_game_stats(game_id: int = Path(None,description="The ID of a Game")):
-    #TODO: Implement in bball_proc
     return bball_proc.get_game_stats(game_id)
+
+get_game_player_stats_summary= "Return that individual player stats of a game"
+@router.get("/games/stats/players/{game_id}" ,summary=get_game_player_stats_summary, response_model=list[PlayerGameStats])
+def get_game_player_stats(game_id: int = Path(None,description="The ID of a Game")):
+    return bball_proc.get_game_player_stats(game_id)
+
 

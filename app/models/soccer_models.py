@@ -24,3 +24,14 @@ class GameStats(BaseModel):
     team_name: str
     goals: int
     assists: int
+
+class PlayerGameStats(BaseModel):
+    game_id: int
+    team_id: int
+    team_name: str
+    player_id: int
+    stat_id: int
+    player_name: str
+    dnp: int
+    goals: int
+    assists: int
