@@ -42,3 +42,12 @@ class PlayerGameStats(BaseModel):
     points: int
     rebounds: int
     fouls: int
+
+class BballStatUpsert(BaseModel):
+    stat_id: int | None
+    game_id: int
+    player_id: int
+    dnp: int
+    points: int
+    rebounds: int
+    fouls: int

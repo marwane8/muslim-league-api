@@ -1,8 +1,10 @@
-from fastapi import APIRouter,Path
+from fastapi import APIRouter,Path,Depends,HTTPException
 
+from app.auth_deps import get_current_user
 from app.accessors.bball_accessor import *
 from app.processors.bball_processor import BasketballProcessor
 
+from ..models.user_models import User
 from ..models.bball_models import *
 from ..models.sport_models import *
 
@@ -78,4 +80,12 @@ get_game_player_stats_summary= "Return that individual player stats of a game"
 def get_game_player_stats(game_id: int = Path(None,description="The ID of a Game")):
     return bball_proc.get_game_player_stats(game_id)
 
+insert_game_stats_summary= "update and insert bulk statistics"
+@router.put("/stats/upsert" ,summary=get_game_stats_summary)
+def insert_games_statistics(stats: list[BballStatUpsert],user: User = Depends(get_current_user)):
+    try:
+        bball_proc.upsert_stats(stats)
+    except Exception as e:
+        raise HTTPException(status_code=400,detail=str(e))
 
+    return {"message": "SUCESS - stats updated"}

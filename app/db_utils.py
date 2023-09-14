@@ -116,7 +116,7 @@ def commit_sql_statement(database: DB,query,values) -> list:
             connection.close()
             print("Closing SQLite Connection")
 
-def execute_bulk_insert(sport: Sport,query,values: list[tuple]) -> list:
+def execute_bulk_query(sport: Sport,query,values: list[tuple]) -> list:
     db_url = DB_STR[sport] 
     try:
         connection = sqlite3.connect(db_url)
@@ -126,7 +126,7 @@ def execute_bulk_insert(sport: Sport,query,values: list[tuple]) -> list:
         for value in values:
             cursor.execute(query,value)
 
-        log_message = 'Updating query: {} with | number of values {}'.format(query,len(values))
+        log_message = f'Insert Success - {len(values)} row inserted'
         print(log_message)
         connection.commit()
     except sqlite3.Error as error:
