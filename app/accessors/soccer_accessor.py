@@ -8,7 +8,7 @@ from enum import Enum
 
 from ..mappers.soccer_mapper import *
 from ..models.soccer_models import *
-from ..db_utils import DB,execute_bulk_insert,fetchone_sql_statement
+from ..db_utils import DB,execute_bulk_query,fetchone_sql_statement
 
 
 
@@ -51,34 +51,25 @@ class SoccerAccessor(SportAccessor):
         games = map_row_to_player_game_stats(games_records)
         return games
 
+    def insert_soccer_stats(self, stats: list[SoccerStatUpsert]):
+        stat_values = [(stat.game_id,stat.player_id,stat.dnp,stat.goals,stat.assists) for stat in stats]
+        query_insert = """
+        INSERT INTO statistics (game_id, player_id, dnp, goals, assists)
+        VALUES (?, ?, ?, ?, ?);
+        """
+        execute_bulk_query(self.SPORT,query_insert,stat_values)
 
-
-
-#--------------
-# Backend Accesssor  
-#--------------
-def insert_soccer_stats(stats: list[SoccerStat]):
-    gameID = stats[0].game_id
-
-    # Only insert game stats if they dont already exsist 
-    isGameAdded = check_for_game_stats(gameID)
-
-    if isGameAdded: raise ValueError('this game has been previously populated'.format(gameID))
-
-    stat_values = [(stat.game_id,stat.player_id,stat.goals,stat.assists,) for stat in stats]
-    query_insert = """
-    INSERT INTO statistics (game_id, player_id, goals, assists)
-    VALUES (?, ?, ?, ?);
-    """
-    execute_bulk_insert(DB.SOCCER,query_insert,stat_values)
-
-def check_for_game_stats(gameID: int)-> bool: 
-    check_games_query = """
-    SELECT game_id 
-    FROM statistics
-    WHERE game_id = ? LIMIT 1;
-    """
-    record = fetchone_sql_statement(DB.SOCCER,check_games_query,(gameID,))
-    if not record: return False 
-    return True
-
+    def update_soccer_stats(self, stats: list[SoccerStatUpsert]):
+        stat_values = [(stat.dnp, stat.goals, stat.assists, stat.stat_id) for stat in stats]
+        query_update = """
+            UPDATE statistics 
+            SET dnp = ?,
+                goals = ?,
+                assists = ?
+            WHERE
+                stat_id = ? 
+            ORDER BY
+                stat_id
+            LIMIT 1;       
+        """
+        execute_bulk_query(self.SPORT, query_update, stat_values)

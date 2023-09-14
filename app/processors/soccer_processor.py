@@ -1,7 +1,7 @@
 
 from ..accessors.soccer_accessor import SoccerAccessor
 from .sport_processor import SportProcessor
-from ..models.soccer_models import SoccerStat
+from ..models.soccer_models import SoccerStat, SoccerStatUpsert
 
 
 class SoccerProcessor(SportProcessor):
@@ -42,12 +42,13 @@ class SoccerProcessor(SportProcessor):
         stat_leaders.sort(key=lambda player: (-player.stat))
         return stat_leaders[:10]
 
-
-
-
-
-
-
-
-    
-
+    def upsert_stats(self, stats: list[SoccerStatUpsert]):
+        in_stats = []
+        up_stats = []
+        for stat in stats:
+            if stat.stat_id:
+                up_stats.append(stat)
+                continue
+            in_stats.append(stat)
+        self.db_accessor.insert_soccer_stats(in_stats)
+        self.db_accessor.update_soccer_stats(up_stats)

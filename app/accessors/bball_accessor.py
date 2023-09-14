@@ -1,10 +1,10 @@
 from .sport_accessor import SportAccessor
 
 from app.models.sport_models import Sport
-from ..models.bball_models import BballStat
+from ..models.bball_models import BballStat, BballStatUpsert
 from ..mappers.sport_mapper import map_row_to_stat,map_row_to_games
 from ..mappers.bball_mapper import map_row_to_team, map_row_to_game_stats, map_row_to_player_game_stats
-from ..db_utils import execute_sql_statement
+from ..db_utils import execute_sql_statement, execute_bulk_query
 
 
 class BasketballAccessor(SportAccessor):
@@ -41,3 +41,29 @@ class BasketballAccessor(SportAccessor):
         games_records = execute_sql_statement(self.SPORT,game_stats_query,(game_id,))
         games = map_row_to_player_game_stats(games_records)
         return games
+
+
+    def insert_bball_stats(self, stats: list[BballStatUpsert]):
+        stat_values = [(stat.game_id,stat.player_id,stat.dnp,stat.points,stat.rebounds,stat.fouls) for stat in stats]
+        query_insert = """
+        INSERT INTO statistics (game_id, player_id, dnp, points, rebounds, fouls)
+        VALUES (?, ?, ?, ?, ?, ?);
+        """
+        execute_bulk_query(self.SPORT,query_insert,stat_values)
+
+
+    def update_bball_stats(self, stats: list[BballStatUpsert]):
+        stat_values = [(stat.dnp, stat.points, stat.rebounds,stat.fouls, stat.stat_id) for stat in stats]
+        query_update = """
+            UPDATE statistics 
+            SET dnp = ?,
+                points = ?,
+                rebounds = ?,
+                fouls = ?
+            WHERE
+                stat_id = ? 
+            ORDER BY
+                stat_id
+            LIMIT 1;       
+        """
+        execute_bulk_query(self.SPORT, query_update, stat_values)

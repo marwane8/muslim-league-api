@@ -45,3 +45,13 @@ class BasketballProcessor(SportProcessor):
         stat_leaders.sort(key=lambda player: (-player.stat))
         return stat_leaders[:10]
 
+    def upsert_stats(self, stats: list[BballStatUpsert]):
+        in_stats = []
+        up_stats = []
+        for stat in stats:
+            if stat.stat_id:
+                up_stats.append(stat)
+                continue
+            in_stats.append(stat)
+        self.db_accessor.insert_bball_stats(in_stats)
+        self.db_accessor.update_bball_stats(up_stats)

@@ -35,3 +35,11 @@ class PlayerGameStats(BaseModel):
     dnp: int
     goals: int
     assists: int
+
+class SoccerStatUpsert(BaseModel):
+    stat_id: int | None
+    game_id: int
+    player_id: int
+    dnp: int
+    goals: int
+    assists: int
