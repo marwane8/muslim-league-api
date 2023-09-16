@@ -15,7 +15,7 @@ class SportAccessor(ABC):
         return teams 
 
     def get_players_data(self,team_id: int):
-        players_query = "SELECT id,team_id,team_name,player_name,player_number,player_pos FROM roster WHERE team_id=?"
+        players_query = "SELECT id,team_id,team_name,active,f_name,l_name,player_name,player_number,player_pos FROM roster WHERE team_id=?"
         players_records = execute_sql_statement(self.SPORT,players_query,(team_id,))
         players = map_rows_to_players(players_records) 
         return players 

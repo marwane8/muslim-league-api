@@ -29,6 +29,9 @@ class Player(BaseModel):
     player_id: int 
     team_id: int 
     team_name: str 
+    active: int
+    f_name: str 
+    l_name: str 
     name: str 
     number: str 
     pos: str
