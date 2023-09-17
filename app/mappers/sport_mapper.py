@@ -15,11 +15,14 @@ def map_rows_to_seasons(rows) -> list[Season]:
 def map_rows_to_players(rows) -> list[Player]:
     players = []
     for row in rows:
-        player_id,team_id,team_name,player_name,player_number,player_pos  = row
+        player_id,team_id,team_name,active,f_name,l_name,player_name,player_number,player_pos  = row
         player = Player(
             player_id=player_id,
             team_id=team_id,
             team_name=team_name,
+            active=active,
+            f_name=f_name,
+            l_name=l_name,
             name=player_name,
             number=player_number,
             pos=player_pos

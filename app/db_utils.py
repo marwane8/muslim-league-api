@@ -136,3 +136,12 @@ def execute_bulk_query(sport: Sport,query,values: list[tuple]) -> list:
             connection.close()
             print("Closing SQLite Connection")
 
+def insert_many_to_many_query(connection,main_query,values,ref_query,refID):
+        connection.execute("PRAGMA foreign_keys = OFF") 
+        cursor = connection.cursor()
+        cursor.execute(main_query,values)
+        cursor.execute("SELECT last_insert_rowid()")
+        record = cursor.fetchone()
+        lastID = record[0]
+        ref_values = (refID,lastID)
+        cursor.execute(ref_query,ref_values)
