@@ -26,7 +26,7 @@ class GameDates(BaseModel):
     games: list[int]
 
 class Player(BaseModel):
-    player_id: int 
+    player_id: int | None
     team_id: int 
     team_name: str 
     active: int

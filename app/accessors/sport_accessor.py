@@ -1,8 +1,9 @@
+import sqlite3
 from abc import ABC, abstractmethod
 
 from ..models.sport_models import Sport, Stat
 from ..mappers.sport_mapper import *
-from ..db_utils import execute_sql_statement
+from ..db_utils import DB_STR, execute_sql_statement, execute_bulk_query, insert_many_to_many_query
 
 class SportAccessor(ABC):
     def __init__(self,sport: Sport):
@@ -37,6 +38,54 @@ class SportAccessor(ABC):
         game_days_records= execute_sql_statement(self.SPORT,game_day_query,(season_id,))
         dates = [record[0] for record in game_days_records] 
         return dates
+    
+    def insert_players(self, roster: list[Player]):
+        players_query = """
+            INSERT INTO players 
+                (active, f_name, l_name, name, number, pos)
+            VALUES
+                (?,?,?,?,?,?);
+        """
+
+        tp_query = """
+            INSERT INTO teams_players 
+                (team_id,player_id)
+            VALUES
+                (?,?);
+        """
+        db_url = DB_STR[self.SPORT] 
+        try:
+            conn = sqlite3.connect(db_url)
+     
+            for player in roster:
+                values = (player.active, player.f_name, player.l_name, player.name, player.number, player.pos) 
+                tid = player.team_id
+                insert_many_to_many_query(conn, players_query,values,tp_query,tid)
+            conn.commit()
+        except sqlite3.Error as error:
+            raise RuntimeError(f'error inserting data - {error}')
+        finally:
+            if conn:
+                conn.close()
+                print("Closing SQLite Connection")
+
+    def update_players(self, roster: list[Player]):
+        player_values = [(player.active, player.f_name, player.l_name, player.name, player.number, player.pos, player.player_id) for player in roster]
+        query_update = """
+            UPDATE players 
+            SET active = ?,
+                f_name = ?,
+                l_name = ?,
+                name = ?,
+                number = ?,
+                pos = ?
+            WHERE
+                id = ? 
+            ORDER BY
+                id
+            LIMIT 1;       
+        """
+        execute_bulk_query(self.SPORT, query_update, player_values)
     
     @abstractmethod
     def get_player_stats_data(self,stat: Stat,season_id: int):
