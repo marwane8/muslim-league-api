@@ -21,6 +21,7 @@ class Game(BaseModel):
     start_time: str
     court: int
     playoff: int
+    played: int
 
 class GameDates(BaseModel):
     games: list[int]
