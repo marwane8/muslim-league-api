@@ -33,7 +33,7 @@ def map_rows_to_players(rows) -> list[Player]:
 def map_row_to_games(rows) -> list[Game]:
         games = []
         for row in rows:
-                season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff = row
+                season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff,played = row
                 game = Game(
                     season_id=season_id,
                     game_id=game_id,
@@ -44,7 +44,8 @@ def map_row_to_games(rows) -> list[Game]:
                     date=date,
                     start_time=start_time,
                     court=court,
-                    playoff=playoff
+                    playoff=playoff,
+                    played=played
                 )
                 games.append(game)
         return games 

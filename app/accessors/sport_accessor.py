@@ -22,13 +22,13 @@ class SportAccessor(ABC):
         return players 
 
     def get_games_by_season_data(self,season_id: int):
-        game_query= "SELECT season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff FROM schedule WHERE season_id = ?"
+        game_query= "SELECT season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff,played FROM schedule WHERE season_id = ?"
         games_records = execute_sql_statement(self.SPORT,game_query,(season_id,))
         games = map_row_to_games(games_records)
         return games 
    
     def get_games_by_date_data(self,date: int):
-        game_query= "SELECT season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff FROM schedule WHERE date = ?"
+        game_query= "SELECT season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff,played FROM schedule WHERE date = ?"
         games_records = execute_sql_statement(self.SPORT,game_query,(date,))
         games = map_row_to_games(games_records)
         return games
