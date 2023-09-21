@@ -100,3 +100,14 @@ def insert_games_statistics(stats: list[BballStatUpsert],user: User = Depends(ge
         raise HTTPException(status_code=400,detail=str(e))
 
     return {"message": "SUCESS - stats updated"}
+
+update_team_stats_summary= "update teams statistics"
+@router.put("/stats/teams" ,summary=upsert_game_stats_summary)
+def insert_games_statistics(team_ids: list[int],user: User = Depends(get_current_user)):
+    try:
+        for id in team_ids:
+            bball_proc.update_team_stats(id);
+    except Exception as e:
+        raise HTTPException(status_code=400,detail=str(e))
+
+    return {"message": "SUCESS - stats updated"}

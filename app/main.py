@@ -45,8 +45,6 @@ app.include_router(bball_rt.router)
 app.include_router(soccer_rt.router)
 
 
-import sqlite3
-from  .db_utils import BBALL_DB_URL,insert_many_to_many_query
 @app.get("/api")
 def home():
     return  { "message": "The Muslim League API"}

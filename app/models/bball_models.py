@@ -51,3 +51,11 @@ class BballStatUpsert(BaseModel):
     points: int
     rebounds: int
     fouls: int
+
+class BballTeamStats(BaseModel):
+    wins: int
+    losses: int
+    points_for: int
+    points_against: int
+    rebounds: int
+    fouls: int

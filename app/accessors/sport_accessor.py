@@ -33,6 +33,12 @@ class SportAccessor(ABC):
         games = map_row_to_games(games_records)
         return games
 
+    def get_game_ids_data(self, team_id: int):
+        game_ids_query="SELECT game_id FROM games WHERE team1_id=? OR team2_id=?";
+        gameID_records = execute_sql_statement(self.SPORT,game_ids_query,(team_id,team_id))
+        gameIDs = [record[0] for record in gameID_records] 
+        return gameIDs 
+
     def get_game_dates_by_season_data(self,season_id: int):
         game_day_query = "SELECT date FROM games WHERE season_id=? GROUP BY date"
         game_days_records= execute_sql_statement(self.SPORT,game_day_query,(season_id,))

@@ -3,6 +3,7 @@ from .sport_processor import SportProcessor
 from ..accessors.bball_accessor import BasketballAccessor
 from ..models.bball_models import *
 from ..models.sport_models import *
+from ..sport_utils import get_team_records
 
 
 
@@ -44,6 +45,12 @@ class BasketballProcessor(SportProcessor):
         stat_leaders = self.db_accessor.get_player_stats_data(stat,season_id)
         stat_leaders.sort(key=lambda player: (-player.stat))
         return stat_leaders[:10]
+    
+    def update_team_stats(self, team_id):
+        gameIDs = self.db_accessor.get_game_ids_data(team_id)
+        team_game_stats = self.db_accessor.get_team_game_stats_data(gameIDs)
+        records = get_team_records(team_id, team_game_stats)
+        team_game_stats = self.db_accessor.update_team_season_stats(team_id, records)
 
     def upsert_roster(self, roster: list[Player]):
         in_team = []
@@ -67,4 +74,3 @@ class BasketballProcessor(SportProcessor):
             in_stats.append(stat)
         self.db_accessor.insert_bball_stats(in_stats)
         self.db_accessor.update_bball_stats(up_stats)
-
