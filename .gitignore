@@ -7,4 +7,4 @@
 #python files
 .venv
 __pycache__
-
+*.db

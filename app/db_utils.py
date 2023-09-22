@@ -96,9 +96,9 @@ def execute_sql_statement(sport: Sport,query,values=None) -> list:
             connection.close()
             print("Closing SQLite Connection")
 
-def commit_sql_statement(database: DB,query,values) -> list:
+def commit_sql_statement(sport: Sport,query,values) -> list:
 
-    db_url = get_db_url(database)
+    db_url = DB_STR[sport] 
     try:
         connection = sqlite3.connect(db_url)
         cursor = connection.cursor()
