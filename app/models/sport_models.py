@@ -6,8 +6,9 @@ class Sport(Enum):
     SOCCER = 2
 
 class Season(BaseModel):
-    season_id: int
-    season_name: str
+    id: int
+    sport_id: int
+    name: str
     year: int
 
 class Game(BaseModel):

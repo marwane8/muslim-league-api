@@ -3,10 +3,11 @@ from ..models.sport_models import *
 def map_rows_to_seasons(rows) -> list[Season]:
     seasons = []
     for row in rows:
-        season_id,season_name,year = row
+        id,sport_id,name,year = row
         season = Season(
-             season_id=season_id,
-             season_name=season_name,
+             id=id,
+             sport_id=sport_id,
+             name=name,
              year=year
         )
         seasons.append(season)

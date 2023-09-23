@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 from ..models.sport_models import Sport, Stat
 from ..mappers.sport_mapper import *
-from ..db_utils import DB_STR, execute_sql_statement, execute_bulk_query, insert_many_to_many_query
+from ..db_utils import execute_sql_statement, execute_bulk_query, insert_many_to_many_query
 
 class SportAccessor(ABC):
     def __init__(self,sport: Sport):
@@ -108,18 +108,3 @@ class SportAccessor(ABC):
     @abstractmethod
     def get_game_player_stats_data(self,game_id: int):
         pass
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-

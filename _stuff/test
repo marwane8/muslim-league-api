@@ -1,0 +1,10 @@
+class Node():
+    def __init__(self):
+        self.name = self.get_name()
+    
+    def get_name(self):
+        return "IM sammy!"
+
+
+n1 = Node()
+print(n1.name)

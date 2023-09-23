@@ -1,9 +1,9 @@
-from .sport_processor import SportProcessor
+from ..app.processors.processor import SportProcessor
 
-from ..accessors.bball_accessor import BasketballAccessor
-from ..models.bball_models import *
-from ..models.sport_models import *
-from ..sport_utils import get_team_records
+from ..app.accessors import BasketballAccessor
+from ..app.models.bball_models import *
+from ..app.models.sport_models import *
+from ..app.sport_utils import get_team_records
 
 
 
