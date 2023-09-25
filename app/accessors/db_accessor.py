@@ -1,7 +1,7 @@
 import sqlite3
 import json
 
-from ..mappers.sport_mapper import *
+from .mapper import *
 from ..utils.db_utils import DB_URL, execute_sql_statement, commit_sql_statement, execute_bulk_query, insert_many_to_many_query
 
 
@@ -170,10 +170,10 @@ class Accessor():
         execute_bulk_query(query_update, player_values)
  
     def insert_stats(self, stats: list[StatUpsert]):
-        stat_values = [(stat.id, stat.sport_id, stat.game_id, stat.player_id, stat.dnp, stat.stat1_type, stat.stat1, stat.stat2_type, stat.stat2, stat.stat3_type, stat.stat3) for stat in stats]
+        stat_values = [(stat.sport_id, stat.game_id, stat.player_id, stat.dnp, stat.stat1_type, stat.stat1, stat.stat2_type, stat.stat2, stat.stat3_type, stat.stat3) for stat in stats]
         query_insert = """
-        INSERT INTO statistics ( id, sport_id, game_id, player_id, dnp, stat1_type, stat1, stat2_type, stat2, stat3_type, stat3 )
-        VALUES (?, ?, ?, ?, ?, ?);
+        INSERT INTO statistics ( sport_id, game_id, player_id, dnp, stat1_type, stat1, stat2_type, stat2, stat3_type, stat3 )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         """
         execute_bulk_query(query_insert,stat_values)
 

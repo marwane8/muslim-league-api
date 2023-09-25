@@ -53,6 +53,48 @@ def map_rows_to_players(rows) -> list[Player]:
         players.append(player)
     return players
 
+def map_row_to_games(rows) -> list[Game]:
+        games = []
+        for row in rows:
+                sport_id, season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff,played = row
+                game = Game(
+                    sport_id=sport_id,
+                    season_id=season_id,
+                    game_id=game_id,
+                    team1_id=team1_id,
+                    team1=team1,
+                    team2_id=team2_id,
+                    team2=team2,
+                    date=date,
+                    start_time=start_time,
+                    court=court,
+                    playoff=playoff,
+                    played=played
+                )
+                games.append(game)
+        return games 
+
+
+def map_row_to_stat(record: list,category) -> list[PlayerStat]:
+        player = []
+        if record == []:
+            print("No records found for requested team")
+        else:
+            for player_stat in record:
+                season_id, player_id, name, stat_records, dnp, type, stat = player_stat
+                stat = PlayerStat(
+                    season_id=season_id,
+                    player_id=player_id,
+                    name=name,
+                    stat_records=stat_records,
+                    dnp=dnp,
+                    type=category,
+                    stat=stat
+                )
+                player.append(stat)
+        return player 
+
+
 def map_row_to_player_game_stats(records:  list[tuple], stat_lookup) -> list[PlayerGameStats]:
     player_game_stats = []
 
@@ -79,27 +121,6 @@ def map_row_to_player_game_stats(records:  list[tuple], stat_lookup) -> list[Pla
     return player_game_stats
 
 
-def map_row_to_games(rows) -> list[Game]:
-        games = []
-        for row in rows:
-                sport_id, season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff,played = row
-                game = Game(
-                    sport_id=sport_id,
-                    season_id=season_id,
-                    game_id=game_id,
-                    team1_id=team1_id,
-                    team1=team1,
-                    team2_id=team2_id,
-                    team2=team2,
-                    date=date,
-                    start_time=start_time,
-                    court=court,
-                    playoff=playoff,
-                    played=played
-                )
-                games.append(game)
-        return games 
-
 def map_row_to_game_totals(games_records,stat_lookup) -> [TeamGameStats]:
     game_totals = []
     for row in games_records:
@@ -119,24 +140,3 @@ def map_row_to_game_totals(games_records,stat_lookup) -> [TeamGameStats]:
 
             game_totals.append(stats)
     return game_totals 
-
-
-def map_row_to_stat(record: list,category) -> list[PlayerStat]:
-        player = []
-        if record == []:
-            print("No records found for requested team")
-        else:
-            for player_stat in record:
-                season_id, player_id, name, stat_records, dnp, type, stat = player_stat
-                stat = PlayerStat(
-                    season_id=season_id,
-                    player_id=player_id,
-                    name=name,
-                    stat_records=stat_records,
-                    dnp=dnp,
-                    type=category,
-                    stat=stat
-                )
-                player.append(stat)
-        return player 
-

@@ -1,7 +1,6 @@
 import abc
 
 from app.accessors.db_accessor import Accessor 
-from app.models.bball_models import *
 from app.models.sport_models import *
 
 class Processor(abc.ABC):

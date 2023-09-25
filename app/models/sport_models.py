@@ -48,6 +48,19 @@ class PlayerStat(BaseModel):
     type: str 
     stat: int 
 
+
+class TeamGameStats(BaseModel):
+    t_id : int
+    team_name : str
+    g_id : int
+    type1 : str
+    stat1_total : int
+    type2 : str
+    stat2_total : int
+    type3 : str
+    stat3_total  : int
+
+
 class PlayerGameStats(BaseModel):
     game_id : int
     team_id : int
@@ -61,17 +74,6 @@ class PlayerGameStats(BaseModel):
     stat2 : int
     type3 : str
     stat3  : int
-
-class TeamGameStats(BaseModel):
-    t_id : int
-    team_name : str
-    g_id : int
-    type1 : str
-    stat1_total : int
-    type2 : str
-    stat2_total : int
-    type3 : str
-    stat3_total  : int
 
 class StatUpsert(BaseModel):
     id: int | None

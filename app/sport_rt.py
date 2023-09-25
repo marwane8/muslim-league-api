@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Path,Depends,HTTPException
 
-from app.utils.auth_deps import get_current_user
+from app.auth_deps import get_current_user
 
 from .models.user_models import User
 from .models.sport_models import *
@@ -22,8 +22,6 @@ db_acc = Accessor()
 get_teams_summary= "Returns a list of all available seasons"
 @router.get("/seasons/{sport_id}" ,summary=get_teams_summary, response_model=list[Season])
 def get_all_seasons(sport_id: int = Path(None,description="The ID of a Sport")):
-    #TODO: Implement sport parser
-    proc.update_team_stats(7)
     return db_acc.get_seasons_data(sport_id)
 
 get_game_summary= "Returns a list of all dates games are played in a season"
@@ -60,21 +58,29 @@ def get_game_dates(season_id: int = Path(None,description="The ID of a Season"))
 #--------------
 # Stat API Endpoints
 #--------------
-get_stat_leaders_summary= "Returns a list of the top players of a given statistical category" 
-@router.get("/players/{season_id}/stat/{category}" ,summary=get_stat_leaders_summary, response_model=list[PlayerStat])
-def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a Season"),category: str= Path(None,description="Statiscal Category eg. Points, Rebounds")):
-    return proc.get_stat_leaders(season_id,category)
-
 get_game_team_stats_summary= "Return the stat totals of each team for a game"
 @router.get("/games/stats/teams/{game_id}" ,summary=get_game_team_stats_summary, response_model=list[TeamGameStats])
 def get_game_team_stats(game_id: int = Path(None,description="The ID of a Game")):
     return db_acc.get_game_totals_data([game_id])
 
+get_stat_leaders_summary= "Returns a list of the top players of a given statistical category" 
+@router.get("/players/{season_id}/stat/{category}" ,summary=get_stat_leaders_summary, response_model=list[PlayerStat])
+def get_stat_leaders_summary(season_id: int = Path(None,description="The ID of a Season"),category: str= Path(None,description="Statiscal Category eg. Points, Rebounds")):
+    leaders = []
+    try:
+        leaders = proc.get_stat_leaders(season_id,category)
+    except Exception as e:
+        raise HTTPException(status_code=400,detail="Endpoint Error, Stat Category was not found")
+
+
+    return leaders 
 
 get_game_player_stats_summary= "Return that individual player stats of a game"
 @router.get("/games/stats/players/{game_id}" ,summary=get_game_player_stats_summary, response_model=list[PlayerGameStats])
 def get_game_player_stats(game_id: int = Path(None,description="The ID of a Game")):
     return db_acc.get_game_player_stats_data(game_id)
+
+
 
 
 
