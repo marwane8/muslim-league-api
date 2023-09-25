@@ -2,7 +2,7 @@
 from app.processors.soccer import  *
 from app.accessors.soccer import *
 
-from app import utils
+from app.utils import auth_utils
 
 #data comment
 stat1 = SoccerStat(
@@ -27,5 +27,5 @@ stat3 = SoccerStat(
 
 
 stats = [stat1,stat2,stat3]
-passw = utils.get_hashed_password('Bismillah114');
+passw = auth_utils.get_hashed_password('Bismillah114');
 print(passw)

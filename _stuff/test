@@ -1,10 +1,29 @@
-class Node():
+import abc
+
+
+
+class Big(abc.ABC):
     def __init__(self):
-        self.name = self.get_name()
+        self.db_lookup = {"DB" : 1 }
     
-    def get_name(self):
-        return "IM sammy!"
+    def play(self):
+        print("im playying!!", self.db_lookup["DB"])
+    
+    @abc.abstractclassmethod
+    def run():
+        print("run for itQ")
+
+class Small(Big):
+    def run(self):
+        print("in running")
+    def go(self):
+        print("im going!!", self.db_lookup["DB"])
 
 
-n1 = Node()
-print(n1.name)
+s = Small()
+s.play()
+s.go()
+
+b = Big()
+b.play()
+

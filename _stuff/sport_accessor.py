@@ -81,7 +81,7 @@ class SportAccessor(ABC):
             UPDATE players 
             SET active = ?,
                 f_name = ?,
-                l_name = ?,
+                # l_name = ?,
                 name = ?,
                 number = ?,
                 pos = ?

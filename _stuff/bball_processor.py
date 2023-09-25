@@ -3,7 +3,7 @@ from ..app.processors.processor import SportProcessor
 from ..app.accessors import BasketballAccessor
 from ..app.models.bball_models import *
 from ..app.models.sport_models import *
-from ..app.sport_utils import get_team_records
+from ..app.utils.sport_utils import get_team_records
 
 
 

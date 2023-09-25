@@ -4,12 +4,12 @@ from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.auth_deps import get_current_user,badLoginException
+from app.utils.auth_deps import get_current_user,badLoginException
 from app.models.user_models import User,TokenSchema
 
 from app import sport_rt
 
-from app.utils import ( 
+from app.utils.auth_utils import ( 
     create_access_token,
     verify_password,
     get_credentials_from_db

@@ -1,6 +1,6 @@
 from fastapi import APIRouter,Path,Depends,HTTPException
 
-from app.auth_deps import get_current_user
+from app.utils.auth_deps import get_current_user
 from app.accessors.bball_accessor import *
 from app.processors.bball_processor import BasketballProcessor
 

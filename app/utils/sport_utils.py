@@ -2,9 +2,10 @@ from itertools import groupby
 from operator import attrgetter
 
 from app.models.bball_models import GameStats, BballTeamStats
+from app.models.sport_models import TeamGameStats
 
 
-def get_team_records(team_id, team_game_stats: list[GameStats]):
+def get_team_records(team_id, team_game_stats: list[TeamGameStats]):
     grouped_stats = group_game_stats_by_game_id(team_game_stats)
     stats = BballTeamStats(
         wins=0,
@@ -32,13 +33,13 @@ def get_team_records(team_id, team_game_stats: list[GameStats]):
             stats.losses += 1
     return stats 
 
-def group_game_stats_by_game_id(game_stats_list) -> dict[int, list[GameStats]]:
+def group_game_stats_by_game_id(game_stats_list) -> dict[int, list[TeamGameStats]]:
     # Sort the list by game_id
-    sorted_stats = sorted(game_stats_list, key=attrgetter('game_id'))
+    sorted_stats = sorted(game_stats_list, key=attrgetter('g_id'))
     
     # Group the sorted list by game_id
     grouped_stats = {}
-    for game_id, stats_group in groupby(sorted_stats, key=attrgetter('game_id')):
+    for game_id, stats_group in groupby(sorted_stats, key=attrgetter('g_id')):
         grouped_stats[game_id] = list(stats_group)
     
     return grouped_stats
