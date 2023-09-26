@@ -29,14 +29,13 @@ class Accessor():
             self.sport_lookup[sport[1]] = sport[0]
 
 
-    def get_seasons_data(self, sport_id=None):
+    def get_seasons_data(self, sport=None):
         season_query = "SELECT id, sport_id, name, year FROM seasons"
-        value=None
-        if sport_id:
-            season_query = "SELECT id, sport_id, name, year FROM seasons WHERE sport_id=?"
-            value=[sport_id]
 
-        season_records = execute_sql_statement(season_query,value)
+        sport_id=self.sport_lookup[sport]
+        season_query = "SELECT id, sport_id, name, year FROM seasons WHERE sport_id=?"
+
+        season_records = execute_sql_statement(season_query,(sport_id,))
         season = map_rows_to_seasons(season_records)
         return season 
 

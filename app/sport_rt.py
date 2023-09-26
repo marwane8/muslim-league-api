@@ -20,9 +20,15 @@ db_acc = Accessor()
 # Season API 
 #--------------
 get_teams_summary= "Returns a list of all available seasons"
-@router.get("/seasons/{sport_id}" ,summary=get_teams_summary, response_model=list[Season])
-def get_all_seasons(sport_id: int = Path(None,description="The ID of a Sport")):
-    return db_acc.get_seasons_data(sport_id)
+@router.get("/seasons/{sport}" ,summary=get_teams_summary, response_model=list[Season])
+def get_all_seasons(sport: str = Path(None,description="The Name of a Sport")):
+    try:
+        seasons = db_acc.get_seasons_data(sport)
+    except Exception as e:
+        raise HTTPException(status_code=400,detail=f"Endpoint Error, The Sport: {sport} was not found")
+
+
+    return seasons
 
 get_game_summary= "Returns a list of all dates games are played in a season"
 @router.get("/games/{season_id}/dates" ,summary=get_game_summary, response_model=list[int])
