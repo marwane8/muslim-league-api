@@ -13,6 +13,18 @@ class TeamData(BaseModel):
     captian_id: str | None = None
     stats_obj: dict 
 
+class BballStandings(BaseModel):
+    id: int
+    season_id: int
+    name: str | None = None
+    wins: int
+    losses: int
+    points_for: int
+    points_against: int
+    rebounds: int
+    fouls: int
+
+
 class Player(BaseModel):
     player_id: int | None
     team_id: int 

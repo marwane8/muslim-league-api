@@ -7,11 +7,9 @@ class Processor(abc.ABC):
     def __init__(self):
         self.db_accessor = Accessor()
     
-    def get_teams(self,season_id: int):
-        teams = self.db_accessor.get_teams_data(season_id)
-        # TODO: fix json object team sort
-        # teams.sort(key=lambda team: (-team.wins))
-        return teams
+    @abc.abstractclassmethod
+    def get_standings(self, season_id):
+        pass
 
     def get_stat_leaders(self, season_id: int, category: str):
         stat_id = self.db_accessor.stat_lookup[category]

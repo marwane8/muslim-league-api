@@ -13,3 +13,4 @@ def group_game_stats_by_game_id(game_stats_list) -> dict[int, list[TeamGameStats
         grouped_stats[game_id] = list(stats_group)
     
     return grouped_stats
+

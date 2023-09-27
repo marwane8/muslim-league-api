@@ -140,3 +140,21 @@ def map_row_to_game_totals(games_records,stat_lookup) -> [TeamGameStats]:
 
             game_totals.append(stats)
     return game_totals 
+
+def map_teams_to_ball_standings(teams: list[TeamData]) -> list[BballStandings]:
+    standings = []
+    for team in teams:
+        stand = BballStandings(
+            id=team.id,
+            season_id=team.season_id,
+            name=team.name,
+            wins=team.stats_obj['wins'],
+            losses=team.stats_obj['losses'],
+            points_for=team.stats_obj['points_for'],
+            points_against=team.stats_obj['points_against'],
+            rebounds=team.stats_obj['rebounds'],
+            fouls=team.stats_obj['fouls']
+        )
+        standings.append(stand)
+    return standings 
+

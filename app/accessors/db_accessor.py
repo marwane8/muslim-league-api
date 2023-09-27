@@ -44,6 +44,12 @@ class Accessor():
         game_days_records= execute_sql_statement(game_day_query,(season_id,))
         dates = [record[0] for record in game_days_records] 
         return dates
+
+    def get_games_by_date(self, date: int):
+        game_query= "SELECT sport_id,season_id,game_id,team1_id,team1,team2_id,team2,date,start_time,court,playoff,played FROM schedule WHERE date = ?"
+        games_records = execute_sql_statement(game_query,(date,))
+        games = map_row_to_games(games_records)
+        return games 
  
     def get_teams_data(self,season_id: int):
         teams_query = "SELECT id, season_id, name, captain_id, stats_obj FROM teams WHERE season_id=?"
