@@ -79,6 +79,7 @@ class PlayerGameStats(BaseModel):
     player_id : int
     stat_id : int
     player_name : str
+    dnp: int
     type1 : str
     stat1 : int
     type2 : str
@@ -92,11 +93,11 @@ class StatUpsert(BaseModel):
     game_id: int
     player_id: int
     dnp: int
-    stat1_type: int
+    stat1_type: str | int
     stat1: int
-    stat2_type: int
+    stat2_type: str | int
     stat2: int
-    stat3_type: int
+    stat3_type: str | int
     stat3: int
 
 

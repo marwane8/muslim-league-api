@@ -100,7 +100,7 @@ def map_row_to_player_game_stats(records:  list[tuple], stat_lookup) -> list[Pla
 
     for game_stat in records:
 
-        game_id, team_id, team_name, player_id, stat_id, player_name, type1, stat1, type2, stat2, type3, stat3 = game_stat
+        game_id, team_id, team_name, player_id, stat_id, player_name, dnp, type1, stat1, type2, stat2, type3, stat3 = game_stat
         stat = PlayerGameStats(
             game_id=game_id,
             team_id=team_id,
@@ -108,6 +108,7 @@ def map_row_to_player_game_stats(records:  list[tuple], stat_lookup) -> list[Pla
             player_id=player_id,
             stat_id=stat_id,
             player_name=player_name,
+            dnp=dnp,
             type1=stat_lookup[type1],
             stat1=stat1,
             type2=stat_lookup[type2],

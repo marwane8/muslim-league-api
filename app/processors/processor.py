@@ -31,10 +31,13 @@ class Processor(abc.ABC):
         self.db_accessor.insert_players(in_team)
         self.db_accessor.update_players(up_team)
  
-    def upsert_stats(self, stats: [StatUpsert]):
+    def upsert_stats(self, stats: list[StatUpsert]):
         in_stats = []
         up_stats = []
         for stat in stats:
+            stat.stat1_type = self.db_accessor.stat_lookup[stat.stat1_type]
+            stat.stat2_type = self.db_accessor.stat_lookup[stat.stat2_type]
+            stat.stat3_type = self.db_accessor.stat_lookup[stat.stat3_type]
             if stat.id:
                 up_stats.append(stat)
                 continue

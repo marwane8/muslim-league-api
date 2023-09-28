@@ -29,11 +29,14 @@ class Accessor():
             self.sport_lookup[sport[1]] = sport[0]
 
 
-    def get_seasons_data(self, sport=None):
-        season_query = "SELECT id, sport_id, name, year FROM seasons"
-
-        sport_id=self.sport_lookup[sport]
-        season_query = "SELECT id, sport_id, name, year FROM seasons WHERE sport_id=?"
+    def get_seasons_data(self, sport="all"):
+        
+        if sport=="all":
+            season_query = "SELECT id, sport_id, name, year FROM seasons WHERE sport_id > ?"
+            sport_id = 0
+        else: 
+            sport_id=self.sport_lookup[sport]
+            season_query = "SELECT id, sport_id, name, year FROM seasons WHERE sport_id=?"
 
         season_records = execute_sql_statement(season_query,(sport_id,))
         season = map_rows_to_seasons(season_records)
@@ -103,7 +106,7 @@ class Accessor():
 
 
     def get_game_player_stats_data(self, game_id: int):
-        game_stats_query= "SELECT game_id, team_id, team_name, player_id, stat_id, player_name, type1, stat1, type2, stat2, type3, stat3 FROM game_statistics WHERE game_id = ?"
+        game_stats_query= "SELECT game_id, team_id, team_name, player_id, stat_id, player_name, dnp, type1, stat1, type2, stat2, type3, stat3 FROM game_statistics WHERE game_id = ?"
         games_records = execute_sql_statement(game_stats_query,(game_id,))
         games = map_row_to_player_game_stats(games_records,self.stat_lookup)
         return games
@@ -185,7 +188,7 @@ class Accessor():
 
 
     def update_stats(self, stats: list[StatUpsert]):
-        stat_values = [(stat.id, stat.sport_id, stat.game_id, stat.player_id, stat.dnp, stat.stat1_type, stat.stat1, stat.stat2_type, stat.stat2, stat.stat3_type, stat.stat3) for stat in stats]
+        stat_values = [(stat.id, stat.sport_id, stat.game_id, stat.player_id, stat.dnp, stat.stat1_type, stat.stat1, stat.stat2_type, stat.stat2, stat.stat3_type, stat.stat3, stat.id) for stat in stats]
         query_update = """
             UPDATE statistics 
             SET id = ?,
@@ -200,9 +203,9 @@ class Accessor():
                 stat3_type = ?,
                 stat3 = ?
             WHERE
-                stat_id = ? 
+                id = ? 
             ORDER BY
-                stat_id
+                id
             LIMIT 1;       
         """
         execute_bulk_query( query_update, stat_values)

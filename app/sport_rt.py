@@ -23,9 +23,12 @@ get_teams_summary= "Returns a list of all available seasons"
 @router.get("/seasons/{sport}" ,summary=get_teams_summary, response_model=list[Season])
 def get_all_seasons(sport: str = Path(None,description="The Name of a Sport")):
     try:
-        seasons = db_acc.get_seasons_data(sport)
+        if sport == "all":
+            seasons = db_acc.get_seasons_data()
+        else:
+            seasons = db_acc.get_seasons_data(sport)
     except Exception as e:
-        raise HTTPException(status_code=400,detail=f"Endpoint Error, The Sport: {sport} was not found")
+        raise HTTPException(status_code=400,detail=f"Endpoint Error, The Sport - {sport} was not found")
 
     return seasons
 
@@ -114,7 +117,7 @@ def insert_games_statistics(stats: list[StatUpsert],user: User = Depends(get_cur
     return {"message": "SUCCESS, the game stats have been updated"}
 
 update_team_stats_summary= "update teams statistics"
-@router.put("/stats/teams" ,summary=upsert_game_stats_summary)
+@router.put("/stats/teams" ,summary=update_team_stats_summary)
 def update_team_statistics(team_ids: list[int],user: User = Depends(get_current_user)):
     try:
         for id in team_ids:
