@@ -1,16 +1,15 @@
-from app.auth_deps import get_current_user,badLoginException
-from app.models.user_models import User,TokenSchema
-from fastapi import FastAPI, Path, Depends,Response
+import os
+from fastapi import FastAPI, Depends,Response
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-import os
 
-from .routers import bball_rt,soccer_rt
+from app.auth_deps import get_current_user,badLoginException
+from app.models.user_models import User,TokenSchema
 
+from app import sport_rt
 
-
-from app.utils import ( 
+from app.utils.auth_utils import ( 
     create_access_token,
     verify_password,
     get_credentials_from_db
@@ -41,9 +40,7 @@ app.add_middleware(
 )
 
 #Included routers
-app.include_router(bball_rt.router)
-app.include_router(soccer_rt.router)
-
+app.include_router(sport_rt.router)
 
 @app.get("/api")
 def home():

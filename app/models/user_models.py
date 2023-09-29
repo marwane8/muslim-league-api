@@ -12,8 +12,3 @@ class User(BaseModel):
     username: str
     password: str | None = None
     admin: int = 0 
-
-class UserJSON(BaseModel):
-    username: str
-    admin: int = 0
-

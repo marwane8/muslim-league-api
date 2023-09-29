@@ -7,7 +7,7 @@ from passlib.context import CryptContext
 
 
 from app.models.user_models import User
-from .db_utils import DB,fetchone_sql_statement
+from .db_utils import fetchone_sql_statement
 
 ENVIRONMENT = os.environ.get('ML_ENV') 
 
@@ -45,7 +45,7 @@ def verify_password(password: str, hashed_pass: str) -> bool:
 def get_credentials_from_db(username: str) -> User | None:
 
     query = "SELECT username,admin,password FROM Users WHERE username = ?"
-    record = fetchone_sql_statement(DB.USERS,query,(username,))
+    record = fetchone_sql_statement(query,(username,))
     if not record: 
         print("The User Not Found: ", username)
         return None 
