@@ -4,31 +4,7 @@ from enum import Enum
 from passlib.context import CryptContext
 from app.models.user_models import User
 
-from .models.sport_models import Sport
-
-
-USERS_DB_URL = os.environ.get('USERS_DB_URL') 
-BBALL_DB_URL = os.environ.get('BBALL_DB_URL') 
-SOCCER_DB_URL = os.environ.get('SOCCER_DB_URL') 
-
-class DB(Enum):
-    USERS = 1
-    BBALL = 2
-    SOCCER = 3
-
-DB_STR = {
-    Sport.BASKETBALL: BBALL_DB_URL,
-    Sport.SOCCER: SOCCER_DB_URL
-}
-
-
-def get_db_url(database: DB) -> str:
-    databases = {
-        DB.USERS: USERS_DB_URL,
-        DB.BBALL: BBALL_DB_URL,
-        DB.SOCCER: SOCCER_DB_URL
-    }
-    return databases.get(database,None)
+DB_URL = os.environ.get('DB_URL') 
      
 # Password Hashing Utilities
 password_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
@@ -52,12 +28,9 @@ def get_credentials_from_db(username: str) -> User | None:
 
 
 # DB Access Utilities
-def fetchone_sql_statement(sport: Sport,query,values) -> list:
-    db_url = DB_STR.get(sport)
-    if not db_url:
-        db_url = USERS_DB_URL
+def fetchone_sql_statement(query,values) -> list:
     try:
-        connection = sqlite3.connect(db_url)
+        connection = sqlite3.connect(DB_URL)
         cursor = connection.cursor()
         cursor.execute(query,values)
 
@@ -74,10 +47,9 @@ def fetchone_sql_statement(sport: Sport,query,values) -> list:
             print("Closing SQLite Connection")
 
 
-def execute_sql_statement(sport: Sport,query,values=None) -> list:
-    db_url = DB_STR[sport] 
+def execute_sql_statement(query,values=None) -> list:
     try:
-        connection = sqlite3.connect(db_url)
+        connection = sqlite3.connect(DB_URL)
         cursor = connection.cursor()
         if values: 
             cursor.execute(query,values)
@@ -96,11 +68,9 @@ def execute_sql_statement(sport: Sport,query,values=None) -> list:
             connection.close()
             print("Closing SQLite Connection")
 
-def commit_sql_statement(sport: Sport,query,values) -> list:
-
-    db_url = DB_STR[sport] 
+def commit_sql_statement(query,values) -> list:
     try:
-        connection = sqlite3.connect(db_url)
+        connection = sqlite3.connect(DB_URL)
         cursor = connection.cursor()
 
         log_message = 'Executing Statement: {} with | values {}'.format(query,values)
@@ -116,10 +86,9 @@ def commit_sql_statement(sport: Sport,query,values) -> list:
             connection.close()
             print("Closing SQLite Connection")
 
-def execute_bulk_query(sport: Sport,query,values: list[tuple]) -> list:
-    db_url = DB_STR[sport] 
+def execute_bulk_query(query,values: list[tuple]) -> list:
     try:
-        connection = sqlite3.connect(db_url)
+        connection = sqlite3.connect(DB_URL)
         connection.execute("PRAGMA foreign_keys = ON") 
         cursor = connection.cursor()
 

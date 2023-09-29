@@ -3,7 +3,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
 from app.models.user_models import TokenPayload, User
-from app.utils import ALGORITHM,JWT_SECRET_KEY,get_credentials_from_db
+from app.utils.auth_utils import ALGORITHM,JWT_SECRET_KEY,get_credentials_from_db
 
 from jose import jwt
 from pydantic import ValidationError
