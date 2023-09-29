@@ -24,6 +24,16 @@ def map_row_to_team(record: list) -> list[TeamData]:
                 stats_dict = {}
                 if stats_obj:
                      stats_dict = json.loads(stats_obj)
+                else:
+                    stats_dict = {
+                        "wins": 0,
+                        "losses": 0,
+                        "points_for": 0,
+                        "points_against":0,
+                        "rebounds":0,
+                        "fouls":0
+                    }
+                    
                 teams.append(TeamData(
                     id=id,
                     season_id=season_id,
