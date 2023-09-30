@@ -44,6 +44,7 @@ class Processor(abc.ABC):
             in_stats.append(stat)
         self.db_accessor.insert_stats(in_stats)
         self.db_accessor.update_stats(up_stats)
+        self.db_accessor.update_game_played(stats[0].game_id, 1)
  
 
     def update_team_stats(self, team_id: int):
