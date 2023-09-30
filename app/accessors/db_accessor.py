@@ -176,6 +176,17 @@ class Accessor():
             LIMIT 1;       
         """
         execute_bulk_query(query_update, player_values)
+
+
+    def update_game_played(self, game_id, played):
+        query = """
+            UPDATE games
+            SET played = ?
+            WHERE
+                id = ?
+            LIMIT 1
+        """
+        commit_sql_statement(query, [played,game_id])
  
     def insert_stats(self, stats: list[StatUpsert]):
         stat_values = [(stat.sport_id, stat.game_id, stat.player_id, stat.dnp, stat.stat1_type, stat.stat1, stat.stat2_type, stat.stat2, stat.stat3_type, stat.stat3) for stat in stats]
