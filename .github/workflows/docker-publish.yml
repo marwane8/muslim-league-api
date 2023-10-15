@@ -20,13 +20,6 @@ jobs:
       - name: Set up Docker Buildx 
         uses: docker/setup-buildx-action@v3
       
-      - name: Build and Push 
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ml-api:1.${{ secrets.MINOR }}
-      
       - name: Update Minor version
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
@@ -38,3 +31,11 @@ jobs:
         run: |
           echo "Value of secrets.MINOR: ${{ secrets.MINOR }}"
           echo "Incremented value: $((${{ secrets.MINOR }}+1))"
+
+      - name: Build and Push 
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/ml-api:1.${{ secrets.MINOR }}
+      
