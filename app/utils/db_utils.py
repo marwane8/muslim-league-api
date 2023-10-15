@@ -6,6 +6,7 @@ from app.models.user_models import User
 
 DB_URL = os.environ.get('DB_URL') 
      
+
 # Password Hashing Utilities
 password_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
 
