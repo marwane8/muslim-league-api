@@ -37,5 +37,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ml-api:1.${{ secrets.MINOR }}
+          tags: 1.${{ secrets.MINOR }}
       
