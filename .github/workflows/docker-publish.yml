@@ -25,4 +25,12 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ml-api:1.0.2
+          tags: ${{ secrets.DOCKER_USERNAME }}/ml-api:1.${{ secrets.MINOR }}
+      
+      - name: Update Minor version
+        uses: hmanzur/actions-set-secret@v2.0.0
+        with:
+          name: 'MINOR'
+          value: $((${{ secrets.MINOR }}+1))
+          repository: marwane8/muslim-league-api
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
