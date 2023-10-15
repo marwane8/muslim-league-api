@@ -34,3 +34,7 @@ jobs:
           value: $((${{ secrets.MINOR }}+1))
           repository: marwane8/muslim-league-api
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
+      - name: Debug
+        run: |
+          echo "Value of secrets.MINOR: ${{ secrets.MINOR }}"
+          echo "Incremented value: $((${{ secrets.MINOR }}+1))"
